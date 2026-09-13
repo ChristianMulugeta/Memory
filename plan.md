@@ -44,7 +44,9 @@ Ziel: Wir wissen, was gefordert ist und womit wir starten.
 - [x] Eigenständiges lokales Git-Repository vorbereitet und mit dem GitHub-Repository `Memory` verknüpft.
 - [x] 62 Bilder endgültig geordnet: Designreferenzen liegen außerhalb des Builds unter `design`; verwendbare Grafiken liegen unter `public/assets` und besitzen verständliche Dateinamen.
 - [x] Den Ablauf der App festlegen: `Homescreen -> Settings -> Spielfeld -> Spielende-Anzeige`; „Exit Game“ führt zurück zum Homescreen.
-- [ ] `AKTUELL` Begriffe aus der Checkliste klären: Was unterscheidet in diesem Projekt ein **Theme** von einem **Layout**?
+- [x] Begriffe aus der Checkliste geklärt:
+  - **Theme** bestimmt das Themengebiet und damit die Kartenmotive, zum Beispiel Gaming, Food oder DA Projects.
+  - **Layout** bestimmt die visuelle Ausführung beziehungsweise das Farbschema, ohne die Kartenmotive auszutauschen.
 - [x] Design-Screens nach Ansicht, Theme, Ergebnis und Spielfeldgröße sortiert; DA-Projects-Kartenmotive und Effekte getrennt abgelegt.
 - [ ] Die zwei verlinkten Coding-Konventionen gemeinsam lesen, sobald Zugriff auf die Google-Dokumente besteht.
 
@@ -62,12 +64,12 @@ Voraussetzung: Abschnitt 0 ist geklärt.
 
 Ziel: TypeScript und SCSS werden zuverlässig geprüft beziehungsweise verarbeitet.
 
-- [ ] Verstehen, welche Aufgabe Vite, TypeScript und Sass jeweils haben.
-- [ ] Den Unterschied zwischen TypeScript-Quellcode und dem JavaScript erklären, das der Browser ausführt.
-- [ ] Den Unterschied zwischen SCSS-Quellcode und dem CSS erklären, das der Browser versteht.
+- [x] Verstehen, welche Aufgabe Vite, TypeScript und Sass jeweils haben.
+- [x] Den Unterschied zwischen TypeScript-Quellcode und dem JavaScript erklären, das der Browser ausführt.
+- [x] Den Unterschied zwischen SCSS-Quellcode und dem CSS erklären, das der Browser versteht.
 - [ ] `package.json` und `tsconfig.json` gemeinsam Zeile für Zeile auf die für uns wichtigen Einstellungen prüfen.
 - [ ] Build-Skript kontrollieren und nur nötige Korrekturen vornehmen.
-- [ ] SCSS-Einstiegspunkt mit der App verbinden.
+- [x] SCSS-Einstiegspunkt mit der App verbinden.
 - [ ] Einen unveränderten Entwicklungsstart und Produktions-Build erfolgreich testen.
 - [ ] Eine einfache, anfängerfreundliche Ordnerstruktur festlegen; erst aufteilen, wenn mehrere Dateien wirklich helfen.
 
@@ -85,10 +87,10 @@ Voraussetzung: Abschnitt 1 funktioniert.
 
 Ziel: Alle App-Zustände besitzen eine saubere, noch weitgehend ungestylte HTML-Grundlage.
 
-- [ ] Sprache, Seitentitel und grundlegende Metadaten sinnvoll setzen.
-- [ ] Einen zentralen App-Container anlegen.
-- [ ] Homescreen mit Überschrift und Start-Button strukturieren.
-- [ ] Settings-Bereich mit echten Formular-Elementen strukturieren.
+- [x] Sprache, Seitentitel und grundlegende Metadaten sinnvoll setzen.
+- [x] Einen zentralen App-Container anlegen.
+- [x] Homescreen mit Überschrift und Start-Button strukturieren.
+- [x] Settings-Bereich mit echten Formular-Elementen strukturieren.
 - [ ] Spielbereich mit Statuszeile, Spielfeld und „Exit Game“-Button strukturieren.
 - [ ] Spielende-Anzeige mit Ergebnis und „Neue Runde“-Button strukturieren.
 - [ ] Sinnvolle HTML-Elemente, Beschriftungen und Button-Typen prüfen.
@@ -128,19 +130,19 @@ Voraussetzung: HTML- und SCSS-Basis stehen.
 
 Ziel: Eine optisch ansprechende Startseite führt zu den Settings.
 
-- [ ] Homescreen entsprechend der verfügbaren Designvorgabe gestalten.
-- [ ] Start-Button gut sichtbar und bedienbar gestalten.
-- [ ] Controller-Icon korrekt positionieren.
-- [ ] Controller-Icon mit einer einfachen, flüssigen CSS/SCSS-Animation versehen.
-- [ ] In TypeScript den Start-Button sicher auswählen.
-- [ ] Klick-Ereignis registrieren und vom Homescreen zu den Settings wechseln.
-- [ ] DOM-Typen und den möglichen Wert `null` anfängerfreundlich behandeln.
+- [x] Homescreen entsprechend der verfügbaren Designvorgabe gestalten.
+- [x] Start-Button gut sichtbar und bedienbar gestalten.
+- [x] Controller-Icon korrekt positionieren.
+- [x] Controller-Icon mit einer einfachen, flüssigen CSS/SCSS-Animation versehen.
+- [x] In TypeScript den Start-Button sicher auswählen.
+- [x] Klick-Ereignis registrieren und vom Homescreen zu den Settings wechseln.
+- [x] DOM-Typen und den möglichen Wert `null` anfängerfreundlich behandeln.
 
 ### Abnahmepunkte aus der Checkliste
 
-- [ ] Homescreen ist entsprechend der Vorgabe umgesetzt.
-- [ ] Ein Button leitet zur Settings-Seite weiter.
-- [ ] Controller-Icon ist passend positioniert und animiert.
+- [x] Homescreen ist entsprechend der Vorgabe umgesetzt.
+- [x] Ein Button leitet zur Settings-Seite weiter.
+- [x] Controller-Icon ist passend positioniert und animiert.
 
 ### Lernkontrolle 4
 
@@ -156,17 +158,17 @@ Voraussetzung: Theme und Layout sind eindeutig definiert; Navigation zu den Sett
 
 Ziel: Einstellungen werden verständlich erfasst und mit passenden TypeScript-Typen gespeichert.
 
-- [ ] Zwei unterscheidbare Spielerfarben anbieten, zum Beispiel Blau und Orange.
-- [ ] Genau drei Spielfeldgrößen anbieten: `4x4`, `4x6`, `6x6`.
-- [ ] Mindestens zwei Themes anbieten; weitere Themes bleiben optional.
-- [ ] Mindestens zwei Layouts anbieten.
-- [ ] Festlegen und sichtbar machen, wie ein Layout das Farbschema verändert.
-- [ ] Festlegen und sichtbar machen, wie die Auswahl die Motive der Memory-Bilder beeinflusst.
+- [x] Zwei unterscheidbare Spielerfarben anbieten, zum Beispiel Blau und Orange.
+- [x] Genau drei Spielfeldgrößen anbieten: `4x4`, `4x6`, `6x6`.
+- [x] Mindestens zwei Themes anbieten; weitere Themes bleiben optional.
+- [x] Mindestens zwei Layouts anbieten.
+- [x] Festlegen und sichtbar machen, wie ein Layout das Farbschema verändert.
+- [x] Festlegen und sichtbar machen, wie die Auswahl die Motive der Memory-Bilder beeinflusst.
 - [ ] Aus bekanntem JavaScript-Objekt schrittweise einen TypeScript-Typ für die Einstellungen entwickeln.
 - [ ] Einfache Union Types für feste Auswahlwerte kennenlernen.
 - [ ] Ein `interface` für zusammengehörige Spieleinstellungen kennenlernen.
-- [ ] Formularwerte auslesen, prüfen und als typisierte Einstellungen speichern.
-- [ ] Erst nach gültiger Auswahl das Spiel starten.
+- [x] Formularwerte auslesen, prüfen und als typisierte Einstellungen speichern.
+- [x] Erst nach gültiger Auswahl das Spiel starten.
 
 ### Abnahmepunkte aus der Checkliste
 
@@ -191,12 +193,12 @@ Voraussetzung: Die typisierten Settings stehen fest.
 
 Ziel: Für jede Spielfeldgröße entsteht ein passendes, gemischtes Paar-Deck.
 
-- [ ] Bestimmen, wie viele Paare jede Spielfeldgröße benötigt.
-- [ ] Einen einfachen Typ beziehungsweise ein Interface für eine Memory-Karte entwickeln.
-- [ ] Motive pro Theme als Daten ablegen.
-- [ ] Aus Motiven Paare erzeugen.
-- [ ] Die benötigte Kartenanzahl aus der gewählten Spielfeldgröße ableiten.
-- [ ] Karten mit einer verständlichen Shuffle-Funktion mischen.
+- [x] Bestimmen, wie viele Paare jede Spielfeldgröße benötigt.
+- [x] Einen einfachen Typ beziehungsweise ein Interface für eine Memory-Karte entwickeln.
+- [x] Motive pro Theme als Daten ablegen.
+- [x] Aus Motiven Paare erzeugen.
+- [x] Die benötigte Kartenanzahl aus der gewählten Spielfeldgröße ableiten.
+- [x] Karten mit einer verständlichen Shuffle-Funktion mischen.
 - [ ] Mit kleinen Beispieldaten prüfen, ob jede Karte genau einen Partner besitzt.
 
 ### Lernkontrolle 6
@@ -213,15 +215,15 @@ Voraussetzung: Ein korrektes Kartendeck kann erzeugt werden.
 
 Ziel: Das sichtbare Spielfeld entspricht allen gewählten Einstellungen.
 
-- [ ] Karten aus den Daten ins DOM rendern.
-- [ ] CSS Grid für `4x4`, `4x6` und `6x6` passend steuern.
-- [ ] Gewähltes Farbschema anwenden.
-- [ ] Gewählte Motive anzeigen.
-- [ ] Oberhalb des Spielfelds beide Punktestände anzeigen.
-- [ ] Aktuellen Spieler deutlich anzeigen.
-- [ ] „Exit Game“-Button ergänzen und Rückkehr eindeutig festlegen.
-- [ ] Kartenrückseite und aufgedeckte Seite gestalten.
-- [ ] Flüssige Umdreh-Animation erstellen.
+- [x] Karten aus den Daten ins DOM rendern.
+- [x] CSS Grid für `4x4`, `4x6` und `6x6` passend steuern.
+- [x] Gewähltes Farbschema anwenden.
+- [x] Gewählte Motive anzeigen.
+- [x] Oberhalb des Spielfelds beide Punktestände anzeigen.
+- [x] Aktuellen Spieler deutlich anzeigen.
+- [x] „Exit Game“-Button ergänzen und Rückkehr eindeutig festlegen.
+- [x] Kartenrückseite und aufgedeckte Seite gestalten.
+- [x] Flüssige Umdreh-Animation erstellen.
 - [ ] Bedienung und Layout auf schmalen Bildschirmen prüfen.
 
 ### Abnahmepunkte aus der Checkliste
@@ -245,16 +247,16 @@ Voraussetzung: Karten werden korrekt gerendert.
 
 Ziel: Ein kompletter Zug mit zwei Karten funktioniert zuverlässig.
 
-- [ ] Kartenklick mit einem Event behandeln.
-- [ ] Bereits gefundene oder bereits offene Karten nicht erneut auswählen.
-- [ ] Höchstens zwei Karten gleichzeitig prüfen.
-- [ ] Während der Paarprüfung weitere Klicks kurz sperren.
-- [ ] Gleiches Paar erkennen und offen lassen.
-- [ ] Punkt für den aktuellen Spieler vergeben.
-- [ ] Ungleiches Paar nach kurzer Pause wieder verdecken.
-- [ ] Nach der gemeinsam festgelegten Regel den Spieler wechseln.
-- [ ] Statusanzeige nach jedem Zug aktualisieren.
-- [ ] Einen neuen Spielzustand sauber initialisieren.
+- [x] Kartenklick mit einem Event behandeln.
+- [x] Bereits gefundene oder bereits offene Karten nicht erneut auswählen.
+- [x] Höchstens zwei Karten gleichzeitig prüfen.
+- [x] Während der Paarprüfung weitere Klicks kurz sperren.
+- [x] Gleiches Paar erkennen und offen lassen.
+- [x] Punkt für den aktuellen Spieler vergeben.
+- [x] Ungleiches Paar nach kurzer Pause wieder verdecken.
+- [x] Nach der gemeinsam festgelegten Regel den Spieler wechseln.
+- [x] Statusanzeige nach jedem Zug aktualisieren.
+- [x] Einen neuen Spielzustand sauber initialisieren.
 
 ### Lernkontrolle 8
 
@@ -270,19 +272,19 @@ Voraussetzung: Paare und Punkte werden korrekt verarbeitet.
 
 Ziel: Die App erkennt das Ende, zeigt das Ergebnis und kann neu starten.
 
-- [ ] Erkennen, wann alle Paare gefunden wurden.
-- [ ] „Game over“-Anzeige einblenden.
-- [ ] Aktuelle beziehungsweise finale Punktestände anzeigen.
-- [ ] Spieler mit den meisten Punkten als Gewinner anzeigen.
-- [ ] Gleichstand sinnvoll behandeln.
-- [ ] Neue Runde mit zurückgesetztem Spielzustand starten.
-- [ ] Gemeinsam entscheiden, ob Einstellungen erhalten bleiben oder neu gewählt werden.
+- [x] Erkennen, wann alle Paare gefunden wurden.
+- [x] „Game over“-Anzeige einblenden.
+- [x] Aktuelle beziehungsweise finale Punktestände anzeigen.
+- [x] Spieler mit den meisten Punkten als Gewinner anzeigen.
+- [x] Gleichstand sinnvoll behandeln.
+- [x] Neue Runde mit zurückgesetztem Spielzustand starten.
+- [x] Einstellungen für eine neue Runde erhalten.
 
 ### Abnahmepunkte aus der Checkliste
 
-- [ ] Nach Rundenende erscheint eine Meldung mit Punktestand.
-- [ ] Der Gewinner wird korrekt angezeigt.
-- [ ] Eine neue Runde kann begonnen werden.
+- [x] Nach Rundenende erscheint eine Meldung mit Punktestand.
+- [x] Der Gewinner wird korrekt angezeigt.
+- [x] Eine neue Runde kann begonnen werden.
 
 ### Lernkontrolle 9
 
@@ -302,7 +304,7 @@ Ziel: Verständlicher eigener Code und eine systematische Abschlussprüfung.
 - [ ] TypeScript anhand der verlinkten TypeScript-Coding-Konvention prüfen.
 - [ ] Aussagekräftige Namen und kleine, klar zuständige Funktionen prüfen.
 - [ ] Unnötige Wiederholungen vorsichtig reduzieren, ohne den Code zu verkomplizieren.
-- [ ] Verbleibende TypeScript-Fehler und Warnungen beheben.
+- [ ] `AKTUELL` Verbleibende TypeScript-Fehler und Warnungen beheben.
 - [ ] Produktions-Build erfolgreich ausführen.
 - [ ] Alle drei Spielfeldgrößen manuell testen.
 - [ ] Beide Spielerfarben, mindestens zwei Themes und mindestens zwei Layouts testen.
@@ -324,5 +326,5 @@ Ziel: Verständlicher eigener Code und eine systematische Abschlussprüfung.
 ## Noch nicht aufgelöste Punkte
 
 - Für Code Vibes, Gaming und Food sind bisher hauptsächlich Design-Screens vorhanden; wir müssen später prüfen, ob die einzelnen Kartenmotive noch exportiert werden müssen.
-- Die Begriffe Theme und Layout müssen vor Abschnitt 5 eindeutig voneinander abgegrenzt werden.
+- Theme und Layout sind abgegrenzt: Theme = Motive/Themengebiet, Layout = visuelle Ausführung/Farbschema.
 - Die verlinkten Google-Dokumente zu HTML- und TypeScript-Konventionen waren beim Erstellen dieses Plans nicht öffentlich auslesbar. Sie bleiben verbindliche Prüfpunkte, sobald Zugriff möglich ist.

@@ -1,14 +1,122 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test</title>
-</head>
-<body>
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Ein Memory-Spiel für zwei Spielerinnen oder Spieler." />
+    <title>Memory – Ready to play?</title>
+  </head>
+  <body>
+    <main id="app" class="app">
+      <section id="home-screen" class="screen home" aria-labelledby="home-title">
+        <div class="home__content">
+          <p class="home__eyebrow">It’s play time.</p>
+          <h1 id="home-title" class="home__title">Ready to play?</h1>
+          <button id="play-button" class="play-button" type="button">
+            <svg class="play-button__icon" aria-hidden="true" viewBox="0 0 64 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17 9h30c5 0 8 4 10 10l4 16c1 5-1 9-5 10-3 1-6-1-9-5l-4-6H21l-4 6c-3 4-6 6-9 5-4-1-6-5-5-10l4-16c2-6 5-10 10-10Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+              <path d="M17 18v12M11 24h12M44 21h.1M51 28h.1" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+            </svg>
+            <span>Play</span>
+            <span class="play-button__arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+        <svg class="home__controller" aria-hidden="true" viewBox="0 0 64 48" fill="none">
+          <path d="M17 9h30c5 0 8 4 10 10l4 16c1 5-1 9-5 10-3 1-6-1-9-5l-4-6H21l-4 6c-3 4-6 6-9 5-4-1-6-5-5-10l4-16c2-6 5-10 10-10Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+          <path d="M17 18v12M11 24h12M44 21h.1M51 28h.1" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+        </svg>
+      </section>
+      <section id="settings-screen" class="screen settings" aria-labelledby="settings-title" hidden>
+        <div class="settings__inner">
+          <header class="settings__header">
+            <button id="back-button" class="back-button" type="button" aria-label="Zurück zum Homescreen">←</button>
+            <h2 id="settings-title">Settings</h2>
+          </header>
 
-    <h1 id="h1_hallo">HALLO</h1>
+          <form id="settings-form" class="settings-form">
+            <div class="settings-form__options">
+              <fieldset class="option-group">
+                <legend>Game theme</legend>
+                <label><input type="radio" name="theme" value="code-vibes" /> Code vibes</label>
+                <label><input type="radio" name="theme" value="gaming" /> Gaming</label>
+                <label><input type="radio" name="theme" value="da-projects" checked /> DA Projects</label>
+                <label><input type="radio" name="theme" value="food" /> Food</label>
+              </fieldset>
 
+              <fieldset class="option-group">
+                <legend>Choose player</legend>
+                <label><input type="radio" name="player" value="blue" checked /> Blue</label>
+                <label><input type="radio" name="player" value="orange" /> Orange</label>
+              </fieldset>
+
+              <fieldset class="option-group">
+                <legend>Board size</legend>
+                <label><input type="radio" name="boardSize" value="4x4" checked /> 16 cards</label>
+                <label><input type="radio" name="boardSize" value="4x6" /> 24 cards</label>
+                <label><input type="radio" name="boardSize" value="6x6" /> 36 cards</label>
+              </fieldset>
+
+              <fieldset class="option-group">
+                <legend>Layout</legend>
+                <label><input type="radio" name="layout" value="light" checked /> Light</label>
+                <label><input type="radio" name="layout" value="dark" /> Dark</label>
+              </fieldset>
+            </div>
+
+            <aside id="settings-preview" class="settings-preview" data-layout="light" data-theme="da-projects" aria-label="Vorschau der gewählten Einstellungen">
+              <div class="settings-preview__status">
+                <span class="score score--orange">♙ 0</span>
+                <span class="score score--blue">♙ 0</span>
+                <span>Current player: <strong id="preview-player" class="preview-player preview-player--blue">♙</strong></span>
+                <span>Exit game</span>
+              </div>
+              <div class="settings-preview__cards" aria-hidden="true">
+                <span class="preview-card preview-card--back">&lt;/&gt;</span>
+                <span id="preview-motif" class="preview-card preview-card--front">🌊</span>
+              </div>
+            </aside>
+
+            <div class="settings-form__actions">
+              <span>Game theme</span><i aria-hidden="true"></i>
+              <span>Player</span><i aria-hidden="true"></i>
+              <span>Board size</span><i aria-hidden="true"></i>
+              <span>Layout</span>
+              <button class="start-button" type="submit">▣ Start</button>
+            </div>
+            <p id="settings-feedback" class="settings-form__feedback" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+      <section id="game-screen" class="screen game" aria-labelledby="game-title" hidden>
+        <h2 id="game-title" class="visually-hidden">Memory-Spielfeld</h2>
+        <header class="game-status">
+          <div class="game-status__scores">
+            <span class="score score--orange">Orange: <strong id="orange-score">0</strong></span>
+            <span class="score score--blue">Blue: <strong id="blue-score">0</strong></span>
+          </div>
+          <p>Current player: <strong id="current-player">Blue</strong></p>
+          <button id="exit-button" class="exit-button" type="button">↪ Exit game</button>
+        </header>
+        <div id="game-board" class="game-board" aria-label="Memory-Karten"></div>
+
+        <section id="result-overlay" class="result-overlay" role="dialog" aria-modal="true" aria-labelledby="result-title" hidden>
+          <div class="result-card">
+            <p class="result-card__eyebrow">Game over</p>
+            <h2 id="result-title">Well played!</h2>
+            <p id="result-message" class="result-card__message"></p>
+            <div class="result-card__scores">
+              <span class="score score--orange">Orange: <strong id="final-orange-score">0</strong></span>
+              <span class="score score--blue">Blue: <strong id="final-blue-score">0</strong></span>
+            </div>
+            <div class="result-card__actions">
+              <button id="new-round-button" class="start-button" type="button">Neue Runde</button>
+              <button id="result-home-button" class="text-button" type="button">Zum Start</button>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
     <script type="module" src="/src/main.ts"></script>
-</body>
+  </body>
 </html>
