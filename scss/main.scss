@@ -206,43 +206,46 @@ button { font: inherit; }
   }
 }
 
+.settings-preview,
+.game {
+  --surface-text: #292c2b;
+  --board-background: #b9e4f3;
+  --status-background: #ffffff;
+  --card-front-background: #f7f7f7;
+  --card-back-color: #5aacc6;
+  --card-back-background: #247f9d;
+
+  &[data-layout="dark"] {
+    --surface-text: #f8f8f8;
+    --board-background: #154b5f;
+    --status-background: #3b4968;
+    --card-front-background: #dce5e9;
+  }
+
+  &[data-theme="code-vibes"] {
+    --card-back-color: #75d9c3;
+    --card-back-background: #265a62;
+  }
+
+  &[data-theme="gaming"] {
+    --card-back-color: #ee3b8d;
+    --card-back-background: linear-gradient(145deg, #ed1372, #63175a);
+  }
+
+  &[data-theme="food"] {
+    --card-back-color: #f4bd62;
+    --card-back-background: #8c4536;
+  }
+}
+
 .settings-preview {
   align-self: center;
   min-height: 400px;
   padding: 1.25rem;
   border-radius: 1.5rem;
-  background: #b9e4f3;
+  color: var(--surface-text);
+  background: var(--board-background);
   transition: color 220ms ease, background-color 220ms ease;
-
-  &[data-layout="dark"] {
-    color: #f8f8f8;
-    background: #154b5f;
-
-    .settings-preview__status {
-      color: #f8f8f8;
-      background: #3b4968;
-    }
-
-    .preview-card--front {
-      color: $color-text-dark;
-      background: #dce5e9;
-    }
-  }
-
-  &[data-theme="code-vibes"] .preview-card--back {
-    color: #75d9c3;
-    background: #265a62;
-  }
-
-  &[data-theme="gaming"] .preview-card--back {
-    color: #ee3b8d;
-    background: linear-gradient(145deg, #ed1372, #63175a);
-  }
-
-  &[data-theme="food"] .preview-card--back {
-    color: #f4bd62;
-    background: #8c4536;
-  }
 
   &__status {
     display: flex;
@@ -251,7 +254,7 @@ button { font: inherit; }
     gap: 0.75rem;
     padding: 0.8rem 1rem;
     border-radius: 0.8rem;
-    background: $color-surface;
+    background: var(--status-background);
     font-size: 0.85rem;
     box-shadow: 0 0.35rem 0.6rem rgba(0, 0, 0, 0.15);
   }
@@ -292,14 +295,15 @@ button { font: inherit; }
     z-index: 1;
     top: 0;
     left: 0;
-    color: #5aacc6;
-    background: #247f9d;
+    color: var(--card-back-color);
+    background: var(--card-back-background);
   }
 
   &--front {
     right: 0;
     bottom: 0;
-    background: #f7f7f7;
+    color: $color-text-dark;
+    background: var(--card-front-background);
   }
 }
 
@@ -324,8 +328,8 @@ button { font: inherit; }
 
 .game {
   padding: clamp(1rem, 2.5vw, 2.5rem);
-  color: $color-text-dark;
-  background: #b9e4f3;
+  color: var(--surface-text);
+  background: var(--board-background);
 }
 
 .game-status {
@@ -337,7 +341,7 @@ button { font: inherit; }
   margin: 0 auto 2rem;
   padding: 0.85rem 1.25rem;
   border-radius: 0.8rem;
-  background: $color-surface;
+  background: var(--status-background);
   box-shadow: 0 0.35rem 0.7rem rgba(0, 0, 0, 0.15);
 
   &__scores {
@@ -375,11 +379,6 @@ button { font: inherit; }
   gap: clamp(0.4rem, 1vw, 1rem);
   width: min(100%, 760px);
   margin: 0 auto;
-
-  &[data-layout="dark"] .memory-card__back {
-    color: #ea3a8f;
-    background: linear-gradient(145deg, #ed1372, #63175a);
-  }
 }
 
 .memory-card {
@@ -413,15 +412,16 @@ button { font: inherit; }
   }
 
   &__back {
-    color: #5aacc6;
-    background: #247f9d;
+    color: var(--card-back-color);
+    background: var(--card-back-background);
     font-size: clamp(1rem, 3vw, 2.5rem);
     font-weight: 700;
   }
 
   &__front {
     padding: 12%;
-    background: #f8fafb;
+    color: $color-text-dark;
+    background: var(--card-front-background);
     font-size: clamp(1.4rem, 4vw, 3.5rem);
     transform: rotateY(180deg);
 

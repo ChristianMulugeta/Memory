@@ -1,6 +1,6 @@
 # Lern- und Projektplan: Memory
 
-Letzte Aktualisierung: 07.09.2026
+Letzte Aktualisierung: 14.09.2026
 
 ## Status
 
@@ -304,15 +304,48 @@ Ziel: Verständlicher eigener Code und eine systematische Abschlussprüfung.
 - [ ] TypeScript anhand der verlinkten TypeScript-Coding-Konvention prüfen.
 - [ ] Aussagekräftige Namen und kleine, klar zuständige Funktionen prüfen.
 - [ ] Unnötige Wiederholungen vorsichtig reduzieren, ohne den Code zu verkomplizieren.
-- [ ] `AKTUELL` Verbleibende TypeScript-Fehler und Warnungen beheben.
-- [ ] Produktions-Build erfolgreich ausführen.
-- [ ] Alle drei Spielfeldgrößen manuell testen.
+- [x] TypeScript-Typprüfung am 14.09.2026 ohne Fehler abgeschlossen.
+- [x] Produktions-Build mit `npm.cmd run build` erfolgreich ausgeführt. Vite meldet einen Performance-Hinweis zu Plugin-Laufzeiten; kein Build-Fehler.
+- [ ] `AKTUELL` Alle drei Spielfeldgrößen manuell testen.
 - [ ] Beide Spielerfarben, mindestens zwei Themes und mindestens zwei Layouts testen.
 - [ ] Start, Settings, Spielzüge, Exit, Spielende und neue Runde testen.
 - [ ] Tastaturbedienung, Fokus, Kontrast und Alternativtexte prüfen.
 - [ ] Darstellung in mindestens einer schmalen und einer breiten Ansicht prüfen.
 - [ ] Optionale Extras getrennt dokumentieren.
 - [ ] Gesamte PDF-Checkliste ein letztes Mal Punkt für Punkt abhaken.
+
+### Manuelle Testergebnisse
+
+- [x] 4×4: Genau 16 verdeckte Karten werden angezeigt (vom Nutzer bestätigt).
+- [x] Ungleiches Paar: Beide Motive sind kurz sichtbar, werden wieder verdeckt, der aktive Spieler wechselt und beide Punktestände bleiben bei 0 (vom Nutzer bestätigt).
+- [x] Passendes Paar: Karten bleiben offen, der aktive Spieler erhält einen Punkt und bleibt am Zug (vom Nutzer bestätigt).
+
+- [x] Klicksperre: Während zwei unterschiedliche Karten offen liegen, bleibt eine angeklickte dritte Karte verdeckt (vom Nutzer bestätigt).
+
+- [x] 4×4-Rundenende: Spielende-Anzeige erscheint, die Punktesumme beträgt 8 und das angezeigte Ergebnis passt zum Punktestand (vom Nutzer bestätigt; Sieg und Gleichstand noch nicht separat getestet).
+
+- [x] Neue Runde nach 4×4: Spielende-Anzeige verschwindet, alle 16 Karten sind verdeckt, beide Punktestände stehen auf 0 und Theme sowie Layout bleiben erhalten (vom Nutzer bestätigt).
+
+- [x] Exit Game führt zum Homescreen; über Play sind die Einstellungen wieder erreichbar (vom Nutzer bestätigt).
+- [x] 4×6-Spielstart: Genau 24 verdeckte Karten werden angezeigt und beide Punktestände stehen auf 0 (vom Nutzer bestätigt).
+
+- [x] 6×6-Spielstart: Genau 36 verdeckte Karten, beide Punktestände auf 0, alle Karten sichtbar und ohne Überlappungen in der getesteten Ansicht (vom Nutzer bestätigt).
+
+- [x] Alle Themes geprüft: Die Kartenmotive passen jeweils zum gewählten Theme (vom Nutzer bestätigt).
+
+- [x] Gemeldete Abweichung zwischen Vorschau und Spiel korrigiert: Gemeinsame CSS-Farbvariablen für Hintergrund, Statusleiste und Kartenseiten; Theme und Layout werden am gesamten Spielbereich gesetzt. TypeScript-Prüfung und Produktions-Build erfolgreich.
+- [x] Farbkorrektur im Browser bestätigt: Vorschau und Spiel passen beim angefragten Test Food + Dark zusammen (Nutzerrückmeldung: „jetzt ist alles in ordnung“).
+- [ ] Übrige Theme-/Layout-Kombinationen nach der Farbkorrektur ausdrücklich prüfen.
+
+- [x] Spielerauswahl Orange: Orange ist nach dem Spielstart am Zug und erhält den Punkt für das erste gefundene Paar (vom Nutzer bestätigt).
+
+- [x] 6×6 im schmalen Browserfenster: Alle Karten erreichbar und ohne Überlappungen; Punktestände, aktueller Spieler und Exit Game lesbar; kein seitliches Scrollen (vom Nutzer bestätigt).
+
+- [x] Tastaturbedienung der Karten: Tab-Fokus ist sichtbar; verdeckte Karten lassen sich mit Enter und Leertaste aufdecken (vom Nutzer bestätigt).
+
+- [x] Gleichstand gezielt mit 4×4 getestet: Bei 4:4 erscheint „It’s a draw!“ mit dem korrekten Punktestand (vom Nutzer bestätigt).
+
+- [x] Zum Start aus der Spielende-Anzeige und anschließender Spielstart über Play: Ergebnisanzeige verschwindet, Karten sind verdeckt und Punktestand ist 0:0 (vom Nutzer bestätigt).
 
 ### Abschlusswiederholung
 

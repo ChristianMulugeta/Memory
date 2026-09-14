@@ -151,7 +151,10 @@ function renderBoard(settings: GameSettings): void {
   deck = createDeck(settings);
   const columns = settings.boardSize === "6x6" ? 6 : 4;
   gameBoard.style.setProperty("--board-columns", String(columns));
-  gameBoard.dataset.layout = settings.layout;
+  if (gameScreen) {
+    gameScreen.dataset.layout = settings.layout;
+    gameScreen.dataset.theme = settings.theme;
+  }
   gameBoard.replaceChildren();
 
   deck.forEach((card) => {
