@@ -48,7 +48,7 @@ Ziel: Wir wissen, was gefordert ist und womit wir starten.
   - **Theme** bestimmt das Themengebiet und damit die Kartenmotive, zum Beispiel Gaming, Food oder DA Projects.
   - **Layout** bestimmt die visuelle Ausführung beziehungsweise das Farbschema, ohne die Kartenmotive auszutauschen.
 - [x] Design-Screens nach Ansicht, Theme, Ergebnis und Spielfeldgröße sortiert; DA-Projects-Kartenmotive und Effekte getrennt abgelegt.
-- [ ] Die zwei verlinkten Coding-Konventionen gemeinsam lesen, sobald Zugriff auf die Google-Dokumente besteht.
+- [x] Beide Coding-Konventionen als lokale PDFs aus `lists` vollständig gelesen und den Code dagegen geprüft. Gemeinsame Lernwiederholung bleibt offen.
 
 ### Lernkontrolle 0
 
@@ -71,7 +71,7 @@ Ziel: TypeScript und SCSS werden zuverlässig geprüft beziehungsweise verarbeit
 - [ ] Build-Skript kontrollieren und nur nötige Korrekturen vornehmen.
 - [x] SCSS-Einstiegspunkt mit der App verbinden.
 - [ ] Einen unveränderten Entwicklungsstart und Produktions-Build erfolgreich testen.
-- [ ] Eine einfache, anfängerfreundliche Ordnerstruktur festlegen; erst aufteilen, wenn mehrere Dateien wirklich helfen.
+- [x] Typen (`src/game-types.ts`), Motive und feste Spielwerte (`src/game-data.ts`) vom Spielablauf (`src/main.ts`) getrennt.
 
 ### Lernkontrolle 1
 
@@ -91,9 +91,9 @@ Ziel: Alle App-Zustände besitzen eine saubere, noch weitgehend ungestylte HTML-
 - [x] Einen zentralen App-Container anlegen.
 - [x] Homescreen mit Überschrift und Start-Button strukturieren.
 - [x] Settings-Bereich mit echten Formular-Elementen strukturieren.
-- [ ] Spielbereich mit Statuszeile, Spielfeld und „Exit Game“-Button strukturieren.
-- [ ] Spielende-Anzeige mit Ergebnis und „Neue Runde“-Button strukturieren.
-- [ ] Sinnvolle HTML-Elemente, Beschriftungen und Button-Typen prüfen.
+- [x] Spielbereich mit Statuszeile, Spielfeld und „Exit Game“-Button strukturieren.
+- [x] Spielende-Anzeige mit Ergebnis und „Neue Runde“-Button strukturieren.
+- [x] Sinnvolle HTML-Elemente, Beschriftungen und Button-Typen prüfen.
 
 ### Lernkontrolle 2
 
@@ -300,19 +300,22 @@ Voraussetzung: Alle fünf User Stories funktionieren.
 
 Ziel: Verständlicher eigener Code und eine systematische Abschlussprüfung.
 
-- [ ] HTML anhand der verlinkten HTML-Coding-Konvention prüfen.
-- [ ] TypeScript anhand der verlinkten TypeScript-Coding-Konvention prüfen.
-- [ ] Aussagekräftige Namen und kleine, klar zuständige Funktionen prüfen.
-- [ ] Unnötige Wiederholungen vorsichtig reduzieren, ohne den Code zu verkomplizieren.
+- [x] HTML anhand der lokalen HTML-Coding-Konvention geprüft: Favicon ergänzt, dekorative Trenner als span ausgezeichnet, Karten-Template ausgelagert und Bild-/Kartenbeschriftungen ergänzt.
+- [x] TypeScript anhand der lokalen TypeScript-Coding-Konvention geprüft: UPPER_CASE-Konstanten, explizite Typen, TSDoc, benannte Spielwerte und maximal 14 Zeilen pro Funktion umgesetzt; kein any und kein inline HTML.
+- [x] Aussagekräftige Namen und kleine, klar zuständige Funktionen geprüft (34 benannte Funktionen, längste Funktion 12 Zeilen inklusive Klammern).
+- [x] Gemeinsame Schritte für Farbschema und Rundenstart zusammengeführt; Typen und Motive ausgelagert.
 - [x] TypeScript-Typprüfung am 14.09.2026 ohne Fehler abgeschlossen.
 - [x] Produktions-Build mit `npm.cmd run build` erfolgreich ausgeführt. Vite meldet einen Performance-Hinweis zu Plugin-Laufzeiten; kein Build-Fehler.
-- [ ] `AKTUELL` Alle drei Spielfeldgrößen manuell testen.
-- [ ] Beide Spielerfarben, mindestens zwei Themes und mindestens zwei Layouts testen.
-- [ ] Start, Settings, Spielzüge, Exit, Spielende und neue Runde testen.
-- [ ] Tastaturbedienung, Fokus, Kontrast und Alternativtexte prüfen.
-- [ ] Darstellung in mindestens einer schmalen und einer breiten Ansicht prüfen.
+- [x] Alle drei Spielfeldgrößen vollständig zu Ende gespielt; Kartenanzahl, Spielstart und Ergebnisanzeige geprüft (vom Nutzer bestätigt).
+- [x] Beide Spielerfarben, alle vier Themes und beide Layouts getestet (vom Nutzer bestätigt).
+- [x] Start, Settings, Spielzüge, Exit, Spielende und neue Runde durch Nutzertests und Browserprüfung abgedeckt.
+- [x] Tastaturbedienung, Fokus, Kontrast und Alternativtexte geprüft.
+- [x] Darstellung in mindestens einer schmalen und einer breiten Ansicht geprüft.
 - [ ] Optionale Extras getrennt dokumentieren.
-- [ ] Gesamte PDF-Checkliste ein letztes Mal Punkt für Punkt abhaken.
+- [ ] Gesamte PDF-Checkliste nach dem Designabgleich ein letztes Mal Punkt für Punkt abhaken.
+- [x] Visuellen Vergleich für Home, Settings, DA-Projects-Spiel und Blue-Ergebnis mit Chrome-Screenshots durchgeführt; Abweichungen in `design/review/review.md` dokumentiert.
+- [x] Designabweichungen für Homescreen, Settings und Spielfeld behoben; die vollflächige Ergebnisansicht anschließend auf Nutzerwunsch auf das frühere Dialogfenster zurückgesetzt.
+- [ ] `AKTUELL` Gesamte PDF-Checkliste ein letztes Mal Punkt für Punkt abhaken und Abschlusswiederholung durchführen.
 
 ### Manuelle Testergebnisse
 
@@ -335,17 +338,33 @@ Ziel: Verständlicher eigener Code und eine systematische Abschlussprüfung.
 
 - [x] Gemeldete Abweichung zwischen Vorschau und Spiel korrigiert: Gemeinsame CSS-Farbvariablen für Hintergrund, Statusleiste und Kartenseiten; Theme und Layout werden am gesamten Spielbereich gesetzt. TypeScript-Prüfung und Produktions-Build erfolgreich.
 - [x] Farbkorrektur im Browser bestätigt: Vorschau und Spiel passen beim angefragten Test Food + Dark zusammen (Nutzerrückmeldung: „jetzt ist alles in ordnung“).
-- [ ] Übrige Theme-/Layout-Kombinationen nach der Farbkorrektur ausdrücklich prüfen.
+- [x] Alle Theme-/Layout-Kombinationen nach der Farbkorrektur geprüft: Hintergrund, Statusleiste und Kartenfarben stimmen zwischen Vorschau und Spiel in Light und Dark überein (vom Nutzer bestätigt).
 
 - [x] Spielerauswahl Orange: Orange ist nach dem Spielstart am Zug und erhält den Punkt für das erste gefundene Paar (vom Nutzer bestätigt).
 
 - [x] 6×6 im schmalen Browserfenster: Alle Karten erreichbar und ohne Überlappungen; Punktestände, aktueller Spieler und Exit Game lesbar; kein seitliches Scrollen (vom Nutzer bestätigt).
+
+- [x] Settings bei 1440 × 768 an die Viewporthöhe angepasst: Alle Auswahlgruppen, Vorschau und Startleiste sind ohne vertikales Scrollen sichtbar; bei niedriger Höhe werden Abstände und Vorschau automatisch verkleinert.
 
 - [x] Tastaturbedienung der Karten: Tab-Fokus ist sichtbar; verdeckte Karten lassen sich mit Enter und Leertaste aufdecken (vom Nutzer bestätigt).
 
 - [x] Gleichstand gezielt mit 4×4 getestet: Bei 4:4 erscheint „It’s a draw!“ mit dem korrekten Punktestand (vom Nutzer bestätigt).
 
 - [x] Zum Start aus der Spielende-Anzeige und anschließender Spielstart über Play: Ergebnisanzeige verschwindet, Karten sind verdeckt und Punktestand ist 0:0 (vom Nutzer bestätigt).
+
+- [x] Laufenden Kartenvergleich beim Verlassen des Spiels und beim Zurücksetzen abbrechen: Timer-ID wird gespeichert und mit clearTimeout gelöscht.
+- [x] Sechs automatisierte Logiktests für passende/ungleiche Paare: Abbruch beim Verlassen, Schutz der neuen Runde beim Zurücksetzen und normaler Vergleich erfolgreich. Ausführen mit `node --test tests/comparison-timer.test.cjs` (Node 24; minimales DOM und kontrollierte Timer, kein Browsertest).
+- [x] TypeScript-Prüfung und Produktions-Build nach der Timer-Korrektur erfolgreich.
+
+- [x] 4×6 vollständig zu Ende gespielt: Ergebnisanzeige erscheint, die Punktesumme beträgt 12 und Gewinner beziehungsweise Gleichstand passen zum Punktestand (vom Nutzer bestätigt).
+
+- [x] 6×6 vollständig zu Ende gespielt: Ergebnisanzeige erscheint, die Punktesumme beträgt 18 und Gewinner beziehungsweise Gleichstand passen zum Punktestand (vom Nutzer bestätigt).
+
+- [x] Abgabe-Checkliste erneut vollständig aus der PDF gelesen. Die funktionalen Anforderungen sind durch Implementierung und die dokumentierten Spieltests abgedeckt; der Designabgleich ist abgeschlossen.
+- [x] Beide Coding-Konventionen vom Nutzer als PDF unter `lists` erhalten und vollständig gelesen.
+- [x] Nach der Konventionsüberarbeitung: Typprüfung, Produktions-Build und sechs Timer-Regressionstests erfolgreich (`npm.cmd test`, Node 24).
+- [x] Chrome-Browsertest nach der Konventionsüberarbeitung: Alle 24 Kombinationen aus vier Themes, zwei Layouts und drei Größen bestehen. Geprüft wurden Karten-Template, Farben gegenüber Vorschau, geladene Bilder und Beschriftungen, Klicksperre, Paarvergleich, Endpunktestand, Neustart und ungültige Formularauswahl.
+- [x] Browsertest reproduzierbar: Nach `npm.cmd run build` mit `node tests/create-browser-check.cjs` die Testseite erzeugen, `npm.cmd run preview` starten und `/browser-check.html` öffnen. Die Testseite meldet PASS oder FAIL; sie ist nur für die lokale Prüfung bestimmt.
 
 ### Abschlusswiederholung
 
@@ -360,4 +379,4 @@ Ziel: Verständlicher eigener Code und eine systematische Abschlussprüfung.
 
 - Für Code Vibes, Gaming und Food sind bisher hauptsächlich Design-Screens vorhanden; wir müssen später prüfen, ob die einzelnen Kartenmotive noch exportiert werden müssen.
 - Theme und Layout sind abgegrenzt: Theme = Motive/Themengebiet, Layout = visuelle Ausführung/Farbschema.
-- Die verlinkten Google-Dokumente zu HTML- und TypeScript-Konventionen waren beim Erstellen dieses Plans nicht öffentlich auslesbar. Sie bleiben verbindliche Prüfpunkte, sobald Zugriff möglich ist.
+- Die HTML- und TypeScript-Konventionen liegen inzwischen lokal unter `lists` vor; die Codeprüfung ist abgeschlossen.

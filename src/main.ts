@@ -1,313 +1,326 @@
+import type { BoardSize, CardMotif, GameSettings, Layout, MemoryCard, PlayerColor, Screen, Theme } from "./game-types";
+import { BOARD_COLUMNS, BOARD_SIZES, CARDS_PER_PAIR, getMotifs, LAYOUTS, MATCH_DELAY_MS, MISMATCH_DELAY_MS, PAIR_COUNTS, PLAYERS, THEME_MOTIFS, THEMES } from "./game-data";
 import "../scss/main.scss";
 
-const homeScreen = document.querySelector<HTMLElement>("#home-screen");
-const settingsScreen = document.querySelector<HTMLElement>("#settings-screen");
-const gameScreen = document.querySelector<HTMLElement>("#game-screen");
-const playButton = document.querySelector<HTMLButtonElement>("#play-button");
-const backButton = document.querySelector<HTMLButtonElement>("#back-button");
-const settingsForm = document.querySelector<HTMLFormElement>("#settings-form");
-const settingsFeedback = document.querySelector<HTMLElement>("#settings-feedback");
-const settingsPreview = document.querySelector<HTMLElement>("#settings-preview");
-const previewMotif = document.querySelector<HTMLElement>("#preview-motif");
-const previewPlayer = document.querySelector<HTMLElement>("#preview-player");
-const gameBoard = document.querySelector<HTMLElement>("#game-board");
-const exitButton = document.querySelector<HTMLButtonElement>("#exit-button");
-const currentPlayer = document.querySelector<HTMLElement>("#current-player");
-const blueScore = document.querySelector<HTMLElement>("#blue-score");
-const orangeScore = document.querySelector<HTMLElement>("#orange-score");
-const resultOverlay = document.querySelector<HTMLElement>("#result-overlay");
-const resultTitle = document.querySelector<HTMLElement>("#result-title");
-const resultMessage = document.querySelector<HTMLElement>("#result-message");
-const finalBlueScore = document.querySelector<HTMLElement>("#final-blue-score");
-const finalOrangeScore = document.querySelector<HTMLElement>("#final-orange-score");
-const newRoundButton = document.querySelector<HTMLButtonElement>("#new-round-button");
-const resultHomeButton = document.querySelector<HTMLButtonElement>("#result-home-button");
-
-type Theme = "code-vibes" | "gaming" | "da-projects" | "food";
-type PlayerColor = "blue" | "orange";
-type BoardSize = "4x4" | "4x6" | "6x6";
-type Layout = "light" | "dark";
-
-interface GameSettings {
-  theme: Theme;
-  player: PlayerColor;
-  boardSize: BoardSize;
-  layout: Layout;
-}
-
-interface MemoryCard {
-  id: string;
-  pairId: string;
-  motif: string;
-  isImage: boolean;
-  isFlipped: boolean;
-  isMatched: boolean;
-}
+const HOME_SCREEN: HTMLElement | null = document.querySelector("#home-screen");
+const SETTINGS_SCREEN: HTMLElement | null = document.querySelector("#settings-screen");
+const GAME_SCREEN: HTMLElement | null = document.querySelector("#game-screen");
+const PLAY_BUTTON: HTMLButtonElement | null = document.querySelector("#play-button");
+const BACK_BUTTON: HTMLButtonElement | null = document.querySelector("#back-button");
+const SETTINGS_FORM: HTMLFormElement | null = document.querySelector("#settings-form");
+const SETTINGS_FEEDBACK: HTMLElement | null = document.querySelector("#settings-feedback");
+const SETTINGS_PREVIEW: HTMLElement | null = document.querySelector("#settings-preview");
+const PREVIEW_MOTIF: HTMLElement | null = document.querySelector("#preview-motif");
+const PREVIEW_PLAYER: HTMLElement | null = document.querySelector("#preview-player");
+const GAME_BOARD: HTMLElement | null = document.querySelector("#game-board");
+const CARD_TEMPLATE: HTMLTemplateElement | null = document.querySelector("#card-template");
+const EXIT_BUTTON: HTMLButtonElement | null = document.querySelector("#exit-button");
+const CURRENT_PLAYER: HTMLElement | null = document.querySelector("#current-player");
+const BLUE_SCORE: HTMLElement | null = document.querySelector("#blue-score");
+const ORANGE_SCORE: HTMLElement | null = document.querySelector("#orange-score");
+const RESULT_OVERLAY: HTMLElement | null = document.querySelector("#result-overlay");
+const RESULT_TITLE: HTMLElement | null = document.querySelector("#result-title");
+const RESULT_MESSAGE: HTMLElement | null = document.querySelector("#result-message");
+const FINAL_BLUE_SCORE: HTMLElement | null = document.querySelector("#final-blue-score");
+const FINAL_ORANGE_SCORE: HTMLElement | null = document.querySelector("#final-orange-score");
+const NEW_ROUND_BUTTON: HTMLButtonElement | null = document.querySelector("#new-round-button");
+const RESULT_HOME_BUTTON: HTMLButtonElement | null = document.querySelector("#result-home-button");
 
 let gameSettings: GameSettings | null = null;
 let deck: MemoryCard[] = [];
 let flippedCards: MemoryCard[] = [];
 let activePlayer: PlayerColor = "blue";
 let scores: Record<PlayerColor, number> = { blue: 0, orange: 0 };
-let boardLocked = false;
+let boardLocked: boolean = false;
+let comparisonTimer: number | null = null;
 
-const themeMotifs: Record<Theme, string> = {
-  "code-vibes": "💻",
-  gaming: "🎲",
-  "da-projects": "🌊",
-  food: "🍜",
-};
+/** Liest nur einen Wert aus den erlaubten Formularoptionen aus. */
+function readOption<T extends string>(data: FormData, name: string, options: T[]): T | null {
+  const VALUE: FormDataEntryValue | null = data.get(name);
+  return options.find((option: T): boolean => option === VALUE) ?? null;
+}
 
-const daProjectMotifs = [
-  "wave", "user-network", "tic-tac-toe", "sombrero", "smiley",
-  "shopping-basket", "sakura-flower-small", "sakura-flower-large",
-  "ramen-bowl", "ramen-bowl-empty", "pokeball", "join-wordmark",
-  "join-logo-green", "join-logo-gradient", "eggs", "currency-exchange",
-  "chef-hat", "chat", "broccoli",
-].map((name) => `/assets/cards/da-projects/${name}.png`);
+/** Prüft die Formularwerte, bevor sie als Spieleinstellungen verwendet werden. */
+function readSettings(): GameSettings | null {
+  if (!SETTINGS_FORM) return null;
+  const DATA: FormData = new FormData(SETTINGS_FORM);
+  const THEME: Theme | null = readOption(DATA, "theme", THEMES);
+  const PLAYER: PlayerColor | null = readOption(DATA, "player", PLAYERS);
+  const BOARD_SIZE: BoardSize | null = readOption(DATA, "boardSize", BOARD_SIZES);
+  const LAYOUT: Layout | null = readOption(DATA, "layout", LAYOUTS);
+  if (!THEME || !PLAYER || !BOARD_SIZE || !LAYOUT) return null;
+  return { theme: THEME, player: PLAYER, boardSize: BOARD_SIZE, layout: LAYOUT };
+}
 
-const emojiMotifs: Record<Exclude<Theme, "da-projects">, string[]> = {
-  "code-vibes": ["💻", "⌨️", "🖱️", "🧑‍💻", "⚙️", "🧠", "🚀", "📱", "🔧", "🧩", "📡", "💾", "🤖", "🌐", "🔋", "🖥️", "📊", "🔐"],
-  gaming: ["🎲", "🎮", "👾", "🕹️", "🏆", "♟️", "🎯", "🧙", "🐉", "⚔️", "🏎️", "🎳", "🧟", "💎", "🛡️", "🏁", "🃏", "🎰"],
-  food: ["🍜", "🍕", "🥦", "🍳", "🍣", "🍔", "🌮", "🍓", "🥐", "🍩", "🥑", "🍇", "🧀", "🥕", "🍪", "🍉", "🥨", "🍒"],
-};
+/** Überträgt Theme und Layout auf einen Vorschau- oder Spielbereich. */
+function applyAppearance(element: HTMLElement | null, settings: GameSettings): void {
+  if (!element) return;
+  element.dataset.layout = settings.layout;
+  element.dataset.theme = settings.theme;
+}
 
-const pairCounts: Record<BoardSize, number> = {
-  "4x4": 8,
-  "4x6": 12,
-  "6x6": 18,
-};
+/** Aktualisiert die Vorschau nach einer gültigen Auswahl. */
+function updatePreview(): void {
+  const SETTINGS: GameSettings | null = readSettings();
+  if (!SETTINGS) return;
+  applyAppearance(SETTINGS_PREVIEW, SETTINGS);
+  if (PREVIEW_MOTIF) {
+    PREVIEW_MOTIF.replaceChildren();
+    if (SETTINGS.theme === "da-projects") {
+      const IMAGE: HTMLImageElement = document.createElement("img");
+      IMAGE.src = "/assets/cards/da-projects/wave.png";
+      IMAGE.alt = "Welle";
+      PREVIEW_MOTIF.append(IMAGE);
+    } else {
+      PREVIEW_MOTIF.textContent = THEME_MOTIFS[SETTINGS.theme];
+    }
+  }
+  if (PREVIEW_PLAYER) PREVIEW_PLAYER.className = `preview-player preview-player--${SETTINGS.player}`;
+}
 
-function readSettings(): GameSettings {
-  const formData = new FormData(settingsForm ?? undefined);
+/** Wechselt die Ansicht und stoppt beim Verlassen einen laufenden Vergleich. */
+function showScreen(screen: Screen): void {
+  if (!HOME_SCREEN || !SETTINGS_SCREEN || !GAME_SCREEN) return;
+  if (screen !== "game") cancelComparison();
+  HOME_SCREEN.hidden = screen !== "home";
+  SETTINGS_SCREEN.hidden = screen !== "settings";
+  GAME_SCREEN.hidden = screen !== "game";
+}
 
+/** Mischt eine Kopie des Arrays mit dem Fisher-Yates-Verfahren. */
+function shuffle<T>(items: T[]): T[] {
+  const SHUFFLED: T[] = [...items];
+  for (let index: number = SHUFFLED.length - 1; index > 0; index -= 1) {
+    const RANDOM_INDEX: number = Math.floor(Math.random() * (index + 1));
+    [SHUFFLED[index], SHUFFLED[RANDOM_INDEX]] = [SHUFFLED[RANDOM_INDEX], SHUFFLED[index]];
+  }
+  return SHUFFLED;
+}
+
+/** Erzeugt eine einzelne verdeckte Karte mit eindeutiger ID. */
+function createCard(motif: CardMotif, pairIndex: number, copy: string, isImage: boolean): MemoryCard {
   return {
-    theme: formData.get("theme") as Theme,
-    player: formData.get("player") as PlayerColor,
-    boardSize: formData.get("boardSize") as BoardSize,
-    layout: formData.get("layout") as Layout,
+    id: `${pairIndex}-${copy}`, pairId: String(pairIndex),
+    motif: motif.value, label: motif.label, isImage, isFlipped: false, isMatched: false,
   };
 }
 
-function updatePreview(): void {
-  const settings = readSettings();
-
-  if (settingsPreview) {
-    settingsPreview.dataset.layout = settings.layout;
-    settingsPreview.dataset.theme = settings.theme;
-  }
-
-  if (previewMotif) {
-    previewMotif.textContent = themeMotifs[settings.theme];
-  }
-
-  if (previewPlayer) {
-    previewPlayer.className = `preview-player preview-player--${settings.player}`;
-  }
+/** Erstellt zwei eigenständige Karten für dasselbe Motiv. */
+function createPair(motif: CardMotif, pairIndex: number, isImage: boolean): MemoryCard[] {
+  return [createCard(motif, pairIndex, "a", isImage), createCard(motif, pairIndex, "b", isImage)];
 }
 
-function showScreen(screen: "home" | "settings" | "game"): void {
-  if (!homeScreen || !settingsScreen || !gameScreen) return;
-
-  homeScreen.hidden = screen !== "home";
-  settingsScreen.hidden = screen !== "settings";
-  gameScreen.hidden = screen !== "game";
-}
-
-function shuffle<T>(items: T[]): T[] {
-  const shuffled = [...items];
-
-  for (let index = shuffled.length - 1; index > 0; index -= 1) {
-    const randomIndex = Math.floor(Math.random() * (index + 1));
-    [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
-  }
-
-  return shuffled;
-}
-
+/** Erstellt die passende Anzahl an Paaren und mischt das Deck. */
 function createDeck(settings: GameSettings): MemoryCard[] {
-  const motifPool = settings.theme === "da-projects"
-    ? daProjectMotifs
-    : emojiMotifs[settings.theme];
-  const selectedMotifs = motifPool.slice(0, pairCounts[settings.boardSize]);
-
-  const deck = selectedMotifs.flatMap((motif, pairIndex) =>
-    ["a", "b"].map((copy) => ({
-      id: `${pairIndex}-${copy}`,
-      pairId: String(pairIndex),
-      motif,
-      isImage: settings.theme === "da-projects",
-      isFlipped: false,
-      isMatched: false,
-    })),
-  );
-
-  return shuffle(deck);
+  const MOTIFS: CardMotif[] = getMotifs(settings.theme).slice(0, PAIR_COUNTS[settings.boardSize]);
+  const CARDS: MemoryCard[] = MOTIFS.flatMap((motif: CardMotif, index: number): MemoryCard[] =>
+    createPair(motif, index, settings.theme === "da-projects"));
+  return shuffle(CARDS);
 }
 
-function renderBoard(settings: GameSettings): void {
-  if (!gameBoard) return;
-
-  deck = createDeck(settings);
-  const columns = settings.boardSize === "6x6" ? 6 : 4;
-  gameBoard.style.setProperty("--board-columns", String(columns));
-  if (gameScreen) {
-    gameScreen.dataset.layout = settings.layout;
-    gameScreen.dataset.theme = settings.theme;
+/** Befüllt die Kartenvorderseite mit einem beschrifteten Bild oder Emoji. */
+function renderMotif(button: HTMLButtonElement, card: MemoryCard): void {
+  const FRONT: HTMLElement | null = button.querySelector(".memory-card__front");
+  if (!FRONT) return;
+  if (!card.isImage) {
+    FRONT.textContent = card.motif;
+    return;
   }
-  gameBoard.replaceChildren();
+  const IMAGE: HTMLImageElement = document.createElement("img");
+  IMAGE.src = card.motif;
+  IMAGE.alt = card.label;
+  FRONT.append(IMAGE);
+}
 
-  deck.forEach((card) => {
-    const button = document.createElement("button");
-    button.className = "memory-card";
-    button.type = "button";
-    button.dataset.cardId = card.id;
-    button.setAttribute("aria-label", "Verdeckte Memory-Karte");
+/** Klont die HTML-Vorlage und hängt eine verdeckte Karte an das Spielfeld. */
+function appendCard(card: MemoryCard): void {
+  const TEMPLATE_BUTTON: HTMLButtonElement | null = CARD_TEMPLATE?.content.querySelector("button") ?? null;
+  if (!TEMPLATE_BUTTON || !GAME_BOARD) return;
+  const CLONE: Node = TEMPLATE_BUTTON.cloneNode(true);
+  if (!(CLONE instanceof HTMLButtonElement)) return;
+  CLONE.dataset.cardId = card.id;
+  renderMotif(CLONE, card);
+  GAME_BOARD.append(CLONE);
+}
 
-    const motif = card.isImage
-      ? `<img src="${card.motif}" alt="" />`
-      : `<span>${card.motif}</span>`;
-
-    button.innerHTML = `<span class="memory-card__inner"><span class="memory-card__back">&lt;/&gt;</span><span class="memory-card__front">${motif}</span></span>`;
-    gameBoard.append(button);
-  });
-
+/** Baut das Spielfeld aus den gewählten Einstellungen neu auf. */
+function renderBoard(settings: GameSettings): void {
+  if (!GAME_BOARD) return;
+  deck = createDeck(settings);
+  GAME_BOARD.style.setProperty("--board-columns", String(BOARD_COLUMNS[settings.boardSize]));
+  applyAppearance(GAME_SCREEN, settings);
+  GAME_BOARD.replaceChildren();
+  deck.forEach(appendCard);
   updateStatus();
 }
 
+/** Zeigt den aktuellen Spieler und beide Punktestände. */
 function updateStatus(): void {
-  if (currentPlayer) {
-    currentPlayer.textContent = activePlayer === "blue" ? "Blue" : "Orange";
-    currentPlayer.className = `score--${activePlayer}`;
+  if (CURRENT_PLAYER) {
+    CURRENT_PLAYER.className = `score--${activePlayer}`;
+    const LABEL: HTMLElement | null = CURRENT_PLAYER.querySelector("span");
+    if (LABEL) LABEL.textContent = activePlayer === "blue" ? "Blue" : "Orange";
   }
-
-  if (blueScore) blueScore.textContent = String(scores.blue);
-  if (orangeScore) orangeScore.textContent = String(scores.orange);
+  if (BLUE_SCORE) BLUE_SCORE.textContent = String(scores.blue);
+  if (ORANGE_SCORE) ORANGE_SCORE.textContent = String(scores.orange);
 }
 
+/** Verhindert, dass ein alter Timer nach Verlassen oder Neustart weiterarbeitet. */
+function cancelComparison(): void {
+  if (comparisonTimer === null) return;
+  window.clearTimeout(comparisonTimer);
+  comparisonTimer = null;
+}
+
+/** Setzt Punkte, Spieler und Kartenauswahl für eine neue Runde zurück. */
 function resetGameState(startingPlayer: PlayerColor): void {
+  cancelComparison();
   flippedCards = [];
   activePlayer = startingPlayer;
   scores = { blue: 0, orange: 0 };
   boardLocked = false;
-  if (resultOverlay) resultOverlay.hidden = true;
+  if (RESULT_OVERLAY) RESULT_OVERLAY.hidden = true;
 }
 
+/** Formuliert das Ergebnis einschließlich des Gleichstands. */
+function updateResultText(): void {
+  const IS_DRAW: boolean = scores.blue === scores.orange;
+  const WINNER: string = scores.blue > scores.orange ? "Blue" : "Orange";
+  if (RESULT_TITLE) RESULT_TITLE.textContent = IS_DRAW ? "It’s a draw!" : `${WINNER} wins!`;
+  if (RESULT_MESSAGE) {
+    RESULT_MESSAGE.textContent = IS_DRAW
+      ? "Ihr habt gleich viele Paare gefunden." : `${WINNER} hat die meisten Paare gefunden.`;
+  }
+}
+
+/** Beendet die Runde und zeigt die finalen Punkte an. */
 function finishGame(): void {
   boardLocked = true;
-  const isDraw = scores.blue === scores.orange;
-  const winner = scores.blue > scores.orange ? "Blue" : "Orange";
-
-  if (resultTitle) resultTitle.textContent = isDraw ? "It’s a draw!" : `${winner} wins!`;
-  if (resultMessage) {
-    resultMessage.textContent = isDraw
-      ? "Ihr habt gleich viele Paare gefunden."
-      : `${winner} hat die meisten Paare gefunden.`;
-  }
-  if (finalBlueScore) finalBlueScore.textContent = String(scores.blue);
-  if (finalOrangeScore) finalOrangeScore.textContent = String(scores.orange);
-  if (resultOverlay) resultOverlay.hidden = false;
-  newRoundButton?.focus();
+  updateResultText();
+  if (FINAL_BLUE_SCORE) FINAL_BLUE_SCORE.textContent = String(scores.blue);
+  if (FINAL_ORANGE_SCORE) FINAL_ORANGE_SCORE.textContent = String(scores.orange);
+  if (RESULT_OVERLAY) RESULT_OVERLAY.hidden = false;
+  NEW_ROUND_BUTTON?.focus();
 }
 
+/** Findet das sichtbare Kartenelement anhand seiner eindeutigen ID. */
 function getCardElement(card: MemoryCard): HTMLButtonElement | null {
-  return gameBoard?.querySelector<HTMLButtonElement>(`[data-card-id="${card.id}"]`) ?? null;
+  return GAME_BOARD?.querySelector<HTMLButtonElement>(`[data-card-id="${card.id}"]`) ?? null;
 }
 
+/** Deckt eine Karte auf und gibt ihr Motiv für Screenreader bekannt. */
 function flipCard(card: MemoryCard): void {
   card.isFlipped = true;
-  const cardElement = getCardElement(card);
-  cardElement?.classList.add("memory-card--flipped");
-  cardElement?.setAttribute("aria-label", "Aufgedeckte Memory-Karte");
+  const ELEMENT: HTMLButtonElement | null = getCardElement(card);
+  ELEMENT?.classList.add("memory-card--flipped");
+  ELEMENT?.setAttribute("aria-label", `Aufgedeckte Memory-Karte: ${card.label}`);
 }
 
-function hideCards(cards: MemoryCard[]): void {
-  cards.forEach((card) => {
-    card.isFlipped = false;
-    const cardElement = getCardElement(card);
-    cardElement?.classList.remove("memory-card--flipped");
-    cardElement?.setAttribute("aria-label", "Verdeckte Memory-Karte");
-  });
+/** Verdeckt eine Karte wieder, ohne ihr Motiv über den Namen zu verraten. */
+function hideCard(card: MemoryCard): void {
+  card.isFlipped = false;
+  const ELEMENT: HTMLButtonElement | null = getCardElement(card);
+  ELEMENT?.classList.remove("memory-card--flipped");
+  ELEMENT?.setAttribute("aria-label", "Verdeckte Memory-Karte");
 }
 
-function markPair(cards: MemoryCard[]): void {
-  cards.forEach((card) => {
-    card.isMatched = true;
-    const cardElement = getCardElement(card);
-    cardElement?.classList.add("memory-card--matched");
-    cardElement?.setAttribute("aria-label", "Gefundenes Kartenpaar");
-    if (cardElement) cardElement.disabled = true;
-  });
+/** Markiert eine gefundene Karte und verhindert weitere Auswahlen. */
+function markCard(card: MemoryCard): void {
+  card.isMatched = true;
+  const ELEMENT: HTMLButtonElement | null = getCardElement(card);
+  ELEMENT?.classList.add("memory-card--matched");
+  ELEMENT?.setAttribute("aria-label", `Gefundenes Kartenpaar: ${card.label}`);
+  if (ELEMENT) ELEMENT.disabled = true;
 }
 
+/** Schließt den passenden Vergleich ab und prüft auf das Rundenende. */
+function resolveMatch(): void {
+  comparisonTimer = null;
+  flippedCards.forEach(markCard);
+  scores[activePlayer] += 1;
+  flippedCards = [];
+  boardLocked = false;
+  updateStatus();
+  if (deck.every((card: MemoryCard): boolean => card.isMatched)) finishGame();
+}
+
+/** Verdeckt ein ungleiches Paar und übergibt den Zug an den anderen Spieler. */
+function resolveMismatch(): void {
+  comparisonTimer = null;
+  flippedCards.forEach(hideCard);
+  flippedCards = [];
+  activePlayer = activePlayer === "blue" ? "orange" : "blue";
+  boardLocked = false;
+  updateStatus();
+}
+
+/** Sperrt Kartenklicks und plant die zum Vergleich passende Verzögerung. */
 function compareFlippedCards(): void {
-  const [firstCard, secondCard] = flippedCards;
-  if (!firstCard || !secondCard) return;
-
+  const [FIRST_CARD, SECOND_CARD]: MemoryCard[] = flippedCards;
+  if (!FIRST_CARD || !SECOND_CARD) return;
   boardLocked = true;
-
-  if (firstCard.pairId === secondCard.pairId) {
-    window.setTimeout(() => {
-      markPair(flippedCards);
-      scores[activePlayer] += 1;
-      flippedCards = [];
-      boardLocked = false;
-      updateStatus();
-      if (deck.every((card) => card.isMatched)) finishGame();
-    }, 450);
-    return;
-  }
-
-  window.setTimeout(() => {
-    hideCards(flippedCards);
-    flippedCards = [];
-    activePlayer = activePlayer === "blue" ? "orange" : "blue";
-    boardLocked = false;
-    updateStatus();
-  }, 900);
+  const IS_MATCH: boolean = FIRST_CARD.pairId === SECOND_CARD.pairId;
+  comparisonTimer = window.setTimeout(
+    IS_MATCH ? resolveMatch : resolveMismatch, IS_MATCH ? MATCH_DELAY_MS : MISMATCH_DELAY_MS);
 }
 
+/** Akzeptiert nur verdeckte, noch nicht gefundene Karten bei freiem Spielfeld. */
 function handleCardClick(cardId: string): void {
   if (boardLocked) return;
-
-  const card = deck.find((item) => item.id === cardId);
-  if (!card || card.isFlipped || card.isMatched) return;
-
-  flipCard(card);
-  flippedCards.push(card);
-
-  if (flippedCards.length === 2) compareFlippedCards();
+  const CARD: MemoryCard | undefined = deck.find((item: MemoryCard): boolean => item.id === cardId);
+  if (!CARD || CARD.isFlipped || CARD.isMatched) return;
+  flipCard(CARD);
+  flippedCards.push(CARD);
+  if (flippedCards.length === CARDS_PER_PAIR) compareFlippedCards();
 }
 
-playButton?.addEventListener("click", () => showScreen("settings"));
-backButton?.addEventListener("click", () => showScreen("home"));
-
-settingsForm?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  gameSettings = readSettings();
-  resetGameState(gameSettings.player);
-
-  if (settingsFeedback) {
-    settingsFeedback.textContent = `Auswahl gespeichert: ${gameSettings.boardSize}, ${gameSettings.theme}, ${gameSettings.layout}.`;
-  }
-
-  renderBoard(gameSettings);
-  showScreen("game");
-});
-
-settingsForm?.addEventListener("change", updatePreview);
-exitButton?.addEventListener("click", () => showScreen("home"));
-newRoundButton?.addEventListener("click", () => {
+/** Startet eine frische Runde mit den gespeicherten Einstellungen. */
+function startRound(): void {
   if (!gameSettings) return;
   resetGameState(gameSettings.player);
   renderBoard(gameSettings);
-});
-resultHomeButton?.addEventListener("click", () => showScreen("home"));
+  showScreen("game");
+}
 
-gameBoard?.addEventListener("click", (event) => {
-  const target = event.target as HTMLElement;
-  const cardElement = target.closest<HTMLButtonElement>(".memory-card");
-  const cardId = cardElement?.dataset.cardId;
+/** Übernimmt gültige Einstellungen oder zeigt einen verständlichen Hinweis. */
+function handleSettingsSubmit(event: SubmitEvent): void {
+  event.preventDefault();
+  gameSettings = readSettings();
+  if (SETTINGS_FEEDBACK) {
+    SETTINGS_FEEDBACK.textContent = gameSettings ? "" : "Bitte wähle in jeder Gruppe eine gültige Option.";
+  }
+  startRound();
+}
 
-  if (cardId) handleCardClick(cardId);
-});
+/** Ordnet einen Klick auf dem Spielfeld der zugehörigen Karte zu. */
+function handleBoardClick(event: MouseEvent): void {
+  if (!(event.target instanceof Element)) return;
+  const ELEMENT: HTMLButtonElement | null = event.target.closest(".memory-card");
+  const CARD_ID: string | undefined = ELEMENT?.dataset.cardId;
+  if (CARD_ID) handleCardClick(CARD_ID);
+}
+
+/** Öffnet die Einstellungen und aktualisiert deren Vorschau. */
+function openSettings(): void {
+  updatePreview();
+  showScreen("settings");
+}
+
+/** Kehrt zum Homescreen zurück. */
+function returnHome(): void {
+  showScreen("home");
+}
+
+/** Verknüpft die Navigation und die Spielaktionen mit ihren Bedienelementen. */
+function registerEvents(): void {
+  PLAY_BUTTON?.addEventListener("click", openSettings);
+  BACK_BUTTON?.addEventListener("click", returnHome);
+  SETTINGS_FORM?.addEventListener("submit", handleSettingsSubmit);
+  SETTINGS_FORM?.addEventListener("change", updatePreview);
+  EXIT_BUTTON?.addEventListener("click", returnHome);
+  NEW_ROUND_BUTTON?.addEventListener("click", startRound);
+  RESULT_HOME_BUTTON?.addEventListener("click", returnHome);
+  GAME_BOARD?.addEventListener("click", handleBoardClick);
+}
+
+registerEvents();

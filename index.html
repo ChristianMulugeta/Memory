@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Ein Memory-Spiel für zwei Spielerinnen oder Spieler." />
     <title>Memory – Ready to play?</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
     <main id="app" class="app">
@@ -13,18 +14,12 @@
           <p class="home__eyebrow">It’s play time.</p>
           <h1 id="home-title" class="home__title">Ready to play?</h1>
           <button id="play-button" class="play-button" type="button">
-            <svg class="play-button__icon" aria-hidden="true" viewBox="0 0 64 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M17 9h30c5 0 8 4 10 10l4 16c1 5-1 9-5 10-3 1-6-1-9-5l-4-6H21l-4 6c-3 4-6 6-9 5-4-1-6-5-5-10l4-16c2-6 5-10 10-10Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
-              <path d="M17 18v12M11 24h12M44 21h.1M51 28h.1" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
-            </svg>
+            <svg class="play-button__icon" aria-hidden="true"><use href="/assets/icons.svg#controller"></use></svg>
             <span>Play</span>
             <span class="play-button__arrow" aria-hidden="true">→</span>
           </button>
         </div>
-        <svg class="home__controller" aria-hidden="true" viewBox="0 0 64 48" fill="none">
-          <path d="M17 9h30c5 0 8 4 10 10l4 16c1 5-1 9-5 10-3 1-6-1-9-5l-4-6H21l-4 6c-3 4-6 6-9 5-4-1-6-5-5-10l4-16c2-6 5-10 10-10Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
-          <path d="M17 18v12M11 24h12M44 21h.1M51 28h.1" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
-        </svg>
+        <svg class="home__controller" aria-hidden="true"><use href="/assets/icons.svg#controller"></use></svg>
       </section>
       <section id="settings-screen" class="screen settings" aria-labelledby="settings-title" hidden>
         <div class="settings__inner">
@@ -36,7 +31,7 @@
           <form id="settings-form" class="settings-form">
             <div class="settings-form__options">
               <fieldset class="option-group">
-                <legend>Game theme</legend>
+                <legend><svg aria-hidden="true"><use href="/assets/icons.svg#palette"></use></svg>Game themes</legend>
                 <label><input type="radio" name="theme" value="code-vibes" /> Code vibes</label>
                 <label><input type="radio" name="theme" value="gaming" /> Gaming</label>
                 <label><input type="radio" name="theme" value="da-projects" checked /> DA Projects</label>
@@ -44,20 +39,20 @@
               </fieldset>
 
               <fieldset class="option-group">
-                <legend>Choose player</legend>
+                <legend><svg aria-hidden="true"><use href="/assets/icons.svg#pawn"></use></svg>Choose player</legend>
                 <label><input type="radio" name="player" value="blue" checked /> Blue</label>
                 <label><input type="radio" name="player" value="orange" /> Orange</label>
               </fieldset>
 
               <fieldset class="option-group">
-                <legend>Board size</legend>
+                <legend><svg aria-hidden="true"><use href="/assets/icons.svg#cards"></use></svg>Board size</legend>
                 <label><input type="radio" name="boardSize" value="4x4" checked /> 16 cards</label>
                 <label><input type="radio" name="boardSize" value="4x6" /> 24 cards</label>
                 <label><input type="radio" name="boardSize" value="6x6" /> 36 cards</label>
               </fieldset>
 
               <fieldset class="option-group">
-                <legend>Layout</legend>
+                <legend><svg aria-hidden="true"><use href="/assets/icons.svg#layout"></use></svg>Layout</legend>
                 <label><input type="radio" name="layout" value="light" checked /> Light</label>
                 <label><input type="radio" name="layout" value="dark" /> Dark</label>
               </fieldset>
@@ -65,23 +60,23 @@
 
             <aside id="settings-preview" class="settings-preview" data-layout="light" data-theme="da-projects" aria-label="Vorschau der gewählten Einstellungen">
               <div class="settings-preview__status">
-                <span class="score score--orange">♙ 0</span>
-                <span class="score score--blue">♙ 0</span>
-                <span>Current player: <strong id="preview-player" class="preview-player preview-player--blue">♙</strong></span>
-                <span>Exit game</span>
+                <span class="score score--orange"><svg aria-hidden="true"><use href="/assets/icons.svg#pawn"></use></svg> 0</span>
+                <span class="score score--blue"><svg aria-hidden="true"><use href="/assets/icons.svg#pawn"></use></svg> 0</span>
+                <span>Current player: <strong id="preview-player" class="preview-player preview-player--blue"><svg aria-hidden="true"><use href="/assets/icons.svg#pawn"></use></svg></strong></span>
+                <span><svg aria-hidden="true"><use href="/assets/icons.svg#exit"></use></svg> Exit game</span>
               </div>
               <div class="settings-preview__cards" aria-hidden="true">
-                <span class="preview-card preview-card--back">&lt;/&gt;</span>
-                <span id="preview-motif" class="preview-card preview-card--front">🌊</span>
+                <span class="preview-card preview-card--back"><svg aria-hidden="true"><use href="/assets/icons.svg#laptop"></use></svg></span>
+                <span id="preview-motif" class="preview-card preview-card--front"><img src="/assets/cards/da-projects/wave.png" alt="Welle" /></span>
               </div>
             </aside>
 
             <div class="settings-form__actions">
-              <span>Game theme</span><i aria-hidden="true"></i>
-              <span>Player</span><i aria-hidden="true"></i>
-              <span>Board size</span><i aria-hidden="true"></i>
+              <span>Game theme</span><span class="settings-form__separator" aria-hidden="true"></span>
+              <span>Player</span><span class="settings-form__separator" aria-hidden="true"></span>
+              <span>Board size</span><span class="settings-form__separator" aria-hidden="true"></span>
               <span>Layout</span>
-              <button class="start-button" type="submit">▣ Start</button>
+              <button class="start-button" type="submit"><svg aria-hidden="true"><use href="/assets/icons.svg#start"></use></svg> Start</button>
             </div>
             <p id="settings-feedback" class="settings-form__feedback" role="status" aria-live="polite"></p>
           </form>
@@ -92,11 +87,11 @@
         <h2 id="game-title" class="visually-hidden">Memory-Spielfeld</h2>
         <header class="game-status">
           <div class="game-status__scores">
-            <span class="score score--orange">Orange: <strong id="orange-score">0</strong></span>
-            <span class="score score--blue">Blue: <strong id="blue-score">0</strong></span>
+            <span class="score score--orange"><svg aria-hidden="true"><use href="/assets/icons.svg#pawn"></use></svg><span class="score__name">Orange </span><strong id="orange-score">0</strong></span>
+            <span class="score score--blue"><svg aria-hidden="true"><use href="/assets/icons.svg#pawn"></use></svg><span class="score__name">Blue </span><strong id="blue-score">0</strong></span>
           </div>
-          <p>Current player: <strong id="current-player">Blue</strong></p>
-          <button id="exit-button" class="exit-button" type="button">↪ Exit game</button>
+          <p>Current player: <strong id="current-player"><svg aria-hidden="true"><use href="/assets/icons.svg#pawn"></use></svg><span class="visually-hidden">Blue</span></strong></p>
+          <button id="exit-button" class="exit-button" type="button"><svg aria-hidden="true"><use href="/assets/icons.svg#exit"></use></svg> Exit game</button>
         </header>
         <div id="game-board" class="game-board" aria-label="Memory-Karten"></div>
 
@@ -117,6 +112,15 @@
         </section>
       </section>
     </main>
+    <!-- Kartenstruktur; TypeScript ergänzt nur Motiv und Karten-ID. -->
+    <template id="card-template">
+      <button class="memory-card" type="button" aria-label="Verdeckte Memory-Karte">
+        <span class="memory-card__inner" aria-hidden="true">
+          <span class="memory-card__back"><svg aria-hidden="true"><use href="/assets/icons.svg#laptop"></use></svg></span>
+          <span class="memory-card__front"></span>
+        </span>
+      </button>
+    </template>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

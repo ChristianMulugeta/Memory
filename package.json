@@ -20,10 +20,11 @@
     "source-map-js": "^1.2.1"
   },
   "scripts": {
-  "dev": "vite",
-  "build": "tsc -noEmit && vite build",
-  "preview": "vite preview"
-},
+    "dev": "vite",
+    "build": "tsc -noEmit && vite build",
+    "preview": "vite preview",
+    "test": "node --test tests/*.test.cjs"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
