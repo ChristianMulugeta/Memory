@@ -68,7 +68,7 @@ function updatePreview(): void {
     PREVIEW_MOTIF.replaceChildren();
     if (SETTINGS.theme === "da-projects") {
       const IMAGE: HTMLImageElement = document.createElement("img");
-      IMAGE.src = "/assets/cards/da-projects/wave.png";
+      IMAGE.src = "./assets/cards/da-projects/wave.png";
       IMAGE.alt = "Welle";
       PREVIEW_MOTIF.append(IMAGE);
     } else {

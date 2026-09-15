@@ -60,7 +60,7 @@ export function getMotifs(theme: Theme): CardMotif[] {
 
 /** Ergänzt den öffentlichen Bildpfad eines DA-Projects-Motivs. */
 function createImageMotif([name, label]: [string, string]): CardMotif {
-  return { value: `/assets/cards/da-projects/${name}.png`, label };
+  return { value: `./assets/cards/da-projects/${name}.png`, label };
 }
 
 /** Wandelt einen Emoji-Eintrag in ein beschriftetes Kartenmotiv um. */
