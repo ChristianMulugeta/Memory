@@ -17,28 +17,28 @@ export const BOARD_COLUMNS: Record<BoardSize, number> = {
 };
 
 const CODE_VIBES_FILES: string[] = [
-  "angularjs", "bash", "bootstrap", "css3", "django", "firebase",
-  "git", "github", "html5", "javascript", "mysql", "nodejs",
-  "python", "react", "sass", "typescript", "vscode", "vuejs",
+  "firebase", "vuejs", "mysql", "react", "bootstrap", "nodejs",
+  "github", "sass", "bash", "angularjs", "django", "css3",
+  "vscode", "html5", "javascript", "typescript", "git", "python",
 ];
 
 const GAMING_FILES: string[] = [
-  "banana", "card", "chip", "controller", "creeper", "dice",
-  "gameboy", "guard-circle", "guard-square", "guard-triangle", "handheld",
-  "lego", "mushroom", "pacman", "play", "purple-controller", "puzzle", "star",
+  "guard-circle", "guard-square", "guard-triangle", "maze", "creeper", "mushroom",
+  "dice", "banana", "controller", "ghosts", "pacman", "star",
+  "gameboy", "snake", "puzzle", "level-up", "playing-card", "play",
 ];
 
 const DA_PROJECT_FILES: string[] = [
-  "wave", "user-network", "tic-tac-toe", "sombrero", "smiley", "shopping-basket",
-  "sakura-flower-small", "sakura-flower-large", "ramen-bowl", "ramen-bowl-empty",
-  "pokeball", "join-wordmark", "join-logo-green", "join-logo-gradient", "eggs",
-  "currency-exchange", "chef-hat", "chat", "broccoli",
+  "ramen-bowl", "ramen-bowl-empty", "eggs", "sakura-flower", "join-wordmark",
+  "chef-hat", "join-logo-green", "shopping-basket", "pokeball", "tic-tac-toe",
+  "smiley", "join-logo-gradient", "chat", "sombrero", "broccoli", "user-network",
+  "wave", "currency-exchange",
 ];
 
 const FOOD_FILES: string[] = [
-  "burger", "cake", "chocolate", "corndog", "cupcake", "donut",
-  "fries", "icecream", "macarons", "nuggets", "pizza", "pretzel",
-  "pudding", "salad", "sandwich", "sushi", "taco", "wrap",
+  "fries", "burger", "donut", "wrap", "cake", "pizza",
+  "pretzel", "sushi", "taco", "salad", "pudding", "sandwich",
+  "nuggets", "cupcake", "corndog", "icecream", "macarons", "chocolate",
 ];
 
 /**
@@ -56,15 +56,14 @@ function createLabel(fileName: string): string {
  * Creates image data for one theme.
  * @param theme - The folder that contains the card images.
  * @param fileNames - The image file names without extensions.
- * @param extension - The file extension used by this theme.
  * @returns All card motifs for the selected theme.
  */
-function createMotifs(theme: Theme, fileNames: string[], extension: string): CardMotif[] {
+function createMotifs(theme: Theme, fileNames: string[]): CardMotif[] {
   const MOTIFS: CardMotif[] = [];
 
   for (const FILE_NAME of fileNames) {
     MOTIFS.push({
-      value: `./assets/cards/${theme}/${FILE_NAME}.${extension}`,
+      value: `./assets/cards/${theme}/${FILE_NAME}.png`,
       label: createLabel(FILE_NAME),
     });
   }
@@ -73,13 +72,13 @@ function createMotifs(theme: Theme, fileNames: string[], extension: string): Car
 }
 
 /**
- * Returns the original card images for one theme.
+ * Returns the available card images for one theme.
  * @param theme - The theme selected in the settings.
  * @returns The available card motifs for that theme.
  */
 export function getMotifs(theme: Theme): CardMotif[] {
-  if (theme === "code-vibes") return createMotifs(theme, CODE_VIBES_FILES, "svg");
-  if (theme === "gaming") return createMotifs(theme, GAMING_FILES, "svg");
-  if (theme === "food") return createMotifs(theme, FOOD_FILES, "svg");
-  return createMotifs(theme, DA_PROJECT_FILES, "png");
+  if (theme === "code-vibes") return createMotifs(theme, CODE_VIBES_FILES);
+  if (theme === "gaming") return createMotifs(theme, GAMING_FILES);
+  if (theme === "food") return createMotifs(theme, FOOD_FILES);
+  return createMotifs(theme, DA_PROJECT_FILES);
 }

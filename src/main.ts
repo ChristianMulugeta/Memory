@@ -164,9 +164,10 @@ function getThemeName(theme: Theme): string {
  * @returns Nothing.
  */
 function updateSelectionSummary(settings: GameSettings): void {
+  const CARD_COUNT: number = PAIR_COUNTS[settings.boardSize] * CARDS_PER_PAIR;
   if (SELECTED_THEME) SELECTED_THEME.textContent = getThemeName(settings.theme);
   if (SELECTED_PLAYER) SELECTED_PLAYER.textContent = settings.player;
-  if (SELECTED_BOARD_SIZE) SELECTED_BOARD_SIZE.textContent = `${PAIR_COUNTS[settings.boardSize] * 2} cards`;
+  if (SELECTED_BOARD_SIZE) SELECTED_BOARD_SIZE.textContent = `${CARD_COUNT} cards`;
   if (SELECTED_LAYOUT) SELECTED_LAYOUT.textContent = settings.layout;
 }
 

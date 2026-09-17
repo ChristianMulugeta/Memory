@@ -6,9 +6,19 @@ Diese Erklärung beschreibt den aktuellen Stand nach dem Mentorfeedback. Öffne 
 
 `game-types.ts` beschreibt, wie die Daten aussehen. Zum Beispiel ist eine `MemoryCard` ein Objekt mit einer ID, einer Paar-ID, einem Bildpfad, einer Beschriftung und zwei Ja/Nein-Werten für ihren Zustand.
 
-`game-data.ts` enthält feste Spielwerte und die Namen der vorhandenen Bilddateien. `getMotifs(theme)` erstellt daraus die Pfade zu den Bildern eines Themes.
+`game-data.ts` enthält feste Spielwerte und die Namen der vorhandenen PNG-Karten. `getMotifs(theme)` erstellt daraus die Pfade zu den Bildern eines Themes.
 
 `main.ts` steuert die sichtbare App: Einstellungen lesen, Karten erstellen, Ansichten wechseln, Klicks auswerten, Punkte vergeben und Dialoge öffnen.
+
+## Benannte Spielwerte statt einzelner Zahlen
+
+`CARDS_PER_PAIR` steht für die Anzahl der Karten in einem Paar und hat den Wert `2`. In der Auswahlübersicht berechnet `updateSelectionSummary()` die Kartenzahl so:
+
+```ts
+const CARD_COUNT: number = PAIR_COUNTS[settings.boardSize] * CARDS_PER_PAIR;
+```
+
+Für ein 4×4-Spielfeld ergibt das `8 * 2 = 16` Karten. Der Name erklärt, warum wir mit zwei multiplizieren. Die Spielregel steht zentral in `game-data.ts`; die Übersicht verwendet denselben Wert wie die Prüfung, ob zwei Karten aufgedeckt sind.
 
 ## Typen in einfachen Worten
 

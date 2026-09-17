@@ -196,11 +196,13 @@ button { font: inherit; }
   --card-front-background: #f2f6f7;
   --card-back-color: #5aacc6;
   --card-back-background: #247f9d;
+  --card-aspect-ratio: 1;
   --theme-font: "Almarai", Arial, sans-serif;
 
   &[data-layout="dark"] { --surface-text: #ffffff; --board-background: #154b5f; --status-background: #586580; --card-front-background: #e1e8eb; }
   &[data-theme="code-vibes"] { --surface-text: #ffffff; --board-background: #2d2f2e; --status-background: #405251; --card-back-color: #91e4d4; --card-back-background: linear-gradient(145deg, #4fd5c4, #24998f); }
-  &[data-theme="gaming"] { --surface-text: #ffffff; --board-background: #29566a; --status-background: #596681; --card-back-color: #ef0b72; --card-back-background: linear-gradient(145deg, #ef0b72, #731a58); --theme-font: "Orbitron", sans-serif; }
+  &[data-theme="gaming"] { --surface-text: #ffffff; --board-background: #29566a; --status-background: #596681; --card-back-color: #ef0b72; --card-back-background: linear-gradient(145deg, #ef0b72, #731a58); --card-aspect-ratio: 129 / 144; --theme-font: "Orbitron", sans-serif; }
+  &[data-theme="da-projects"] { --card-aspect-ratio: 120 / 100; }
   &[data-theme="food"] { --surface-text: #ad5200; --board-background: #ffffff; --status-background: #f1e5d8; --card-front-background: #fff0df; --card-back-color: #ffaf72; --card-back-background: #fb8127; --theme-font: "Klee One", cursive; }
 }
 
@@ -232,15 +234,15 @@ button { font: inherit; }
   display: grid;
   place-items: center;
   width: 155px;
-  aspect-ratio: 1;
+  aspect-ratio: var(--card-aspect-ratio);
   border-radius: 0.8rem;
   box-shadow: 0 0.55rem 0.65rem rgba(0, 0, 0, 0.2);
   font-size: 3rem;
 
   svg { width: 52%; height: 52%; }
-  img { width: 70%; height: 70%; object-fit: contain; }
+  img { width: 100%; height: 100%; object-fit: contain; }
   &--back { z-index: 1; top: 0; left: 0; color: var(--card-back-color); background: var(--card-back-background); }
-  &--front { right: 0; bottom: 0; color: $ink; background: var(--card-front-background); }
+  &--front { right: 0; bottom: 0; color: $ink; background: transparent; box-shadow: none; }
 }
 
 .start-button {
@@ -328,7 +330,7 @@ button { font: inherit; }
 }
 
 .memory-card {
-  aspect-ratio: 1;
+  aspect-ratio: var(--card-aspect-ratio);
   padding: 0;
   border: 0;
   border-radius: 0.75rem;
@@ -340,7 +342,7 @@ button { font: inherit; }
   &__back, &__front { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; border-radius: inherit; box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.2); backface-visibility: hidden; }
   &__back { color: var(--card-back-color); background: var(--card-back-background); }
   &__back svg { width: 48%; height: 48%; }
-  &__front { padding: 12%; color: $ink; background: var(--card-front-background); font-size: clamp(1.4rem, 4vw, 3.5rem); transform: rotateY(180deg); }
+  &__front { color: $ink; background: transparent; box-shadow: none; font-size: clamp(1.4rem, 4vw, 3.5rem); transform: rotateY(180deg); }
   &__front img { width: 100%; height: 100%; object-fit: contain; }
   &:focus-visible { outline: 4px solid $orange; outline-offset: 3px; }
   &--flipped &__inner, &--matched &__inner { transform: rotateY(180deg); }

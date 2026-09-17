@@ -49,6 +49,15 @@ Für die Veröffentlichung wird der **Inhalt** von `dist/` in das Webverzeichnis
 - Vite
 - Node.js Test Runner
 
+## Projektstruktur
+
+- `src/`: TypeScript-Typen, feste Spieldaten und Spiellogik
+- `scss/`: Stylesheet der App
+- `public/assets/cards/`: die 18 Karten-Komponenten jedes Themes
+- `public/assets/fonts/`: lokale Schriftarten und ihre Lizenzen
+- `design/`: Designvorlagen und dokumentierte Vergleichsbilder
+- `tests/`: automatisierte Logik- und Browserprüfungen
+
 ## Optionale Erweiterungen
 
 Über die Pflichtanforderungen hinaus enthält das Projekt vier Themes, drei Spielfeldgrößen, zwei Layouts, lokale Schriftarten, eine responsive Darstellung, reduzierte Animationen bei entsprechender Systemeinstellung, eine Ergebnisanzeige mit Konfetti sowie automatisierte Regressionstests für verzögerte Kartenvergleiche.

@@ -3,10 +3,17 @@ const fs = require("node:fs");
 const html = fs.readFileSync("dist/index.html", "utf8");
 const script = `
 window.addEventListener("load", async () => {
-  const view = new URLSearchParams(location.search).get("view");
+  const params = new URLSearchParams(location.search);
+  const view = params.get("view");
+  const theme = params.get("theme");
   const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
   if (view === "home") return;
   document.querySelector("#play-button").click();
+  const themeInput = document.querySelector('input[name="theme"][value="' + theme + '"]');
+  if (themeInput) {
+    themeInput.checked = true;
+    themeInput.dispatchEvent(new Event("change", { bubbles: true }));
+  }
   if (view === "settings") return;
   if (view === "hover-gaming") {
     document.querySelector('[data-preview-theme="gaming"]').dispatchEvent(new MouseEvent("mouseenter"));
