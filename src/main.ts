@@ -536,6 +536,10 @@ function openExitDialog(): void {
 function continueGame(): void {
   exitDialogOpen = false;
   EXIT_DIALOG?.close();
+  if (RESULT_OVERLAY && !RESULT_OVERLAY.hidden) {
+    NEW_ROUND_BUTTON?.focus();
+    return;
+  }
   EXIT_BUTTON?.focus();
 }
 

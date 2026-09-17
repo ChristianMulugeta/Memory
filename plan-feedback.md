@@ -34,9 +34,10 @@ Die bisherigen Änderungen sind umgesetzt. Offen bleiben der Abgleich mit den Or
 - [x] Die vom Nutzer am 17.09.2026 bereitgestellten Karten-Komponenten geprüft und übernommen: jedes Theme enthält 18 unterschiedliche PNG-Dateien.
 - [x] Hover-Anforderung eingeordnet: Die PDF-Checkliste nennt Hover nicht ausdrücklich. Die Theme-Vorschau folgt dem dokumentierten Mentorfeedback.
 - [x] Kartenmotive vom Nutzer als die richtigen Komponenten bestätigt und in `public/assets/cards/<theme>/` einsortiert.
-- [ ] Controller, Kartenrückseiten und Bedienicons mit der ursprünglichen Designquelle vergleichen. Im Projekt ist kein Link zu dieser Quelle dokumentiert.
-- [ ] Fehlende Originalgrafiken anhand der Quelle konkret auflisten und beschaffen.
-- [ ] Am Originalprototyp klären, ob auch andere Auswahlgruppen beim Darüberfahren eine Vorschau benötigen.
+- [x] Controller, Kartenrückseiten und Bedienicons mit der vorhandenen Komponentenübersicht und den gespeicherten Designansichten verglichen. Das Ergebnis steht in `design/review/asset-audit.md`.
+- [x] Fehlende Einzelgrafiken konkret aufgelistet: Code-Vibes-Spielersymbol und optional der große Home-Controller für eine pixelgenaue Umsetzung.
+- [ ] Diese beiden Originalexporte aus der externen Designquelle beschaffen. Sie liegen nicht als Einzeldateien im Projekt und werden nicht ungenau aus Screenshots ausgeschnitten.
+- [x] Hover-Verhalten anhand der Komponentenübersicht geklärt: Dort ist nur das Game-Theme-Element ausdrücklich als interaktive Vorschau beschrieben. Spieler, Spielfeldgröße und Layout bleiben normale Radio-Auswahlen.
 
 Die Bestätigung des Nutzers gilt für die Karten-Komponenten. Die Herkunft der übrigen Bediengrafiken bleibt auch nach erfolgreichem Build und Browsertest offen.
 
@@ -69,8 +70,8 @@ Die folgenden visuellen Korrekturen und Screenshotprüfungen sind für den 15.09
 - [x] Vergleichsbilder unter `design/review/mentor-*.png` erstellt und visuell geprüft.
 - [x] Neue Karten-Komponenten mit verständlichen Dateinamen versehen, den temporären Importordner entfernt und die alten Ersatzmotive vollständig ersetzt.
 - [x] Die vom Export vorgegebenen Seitenverhältnisse je Theme übernommen: Code Vibes und Food quadratisch, DA Projects quer, Gaming hochkant.
-- [ ] Die Controller-Animation über einen vollständigen Durchlauf mit der Originalvorlage vergleichen; Screenshots allein belegen den Ablauf nicht.
-- [ ] Kartenrückseiten und Icons für jedes Theme mit der Originalquelle abgleichen.
+- [x] Controller-Animation geprüft: fünf Sekunden, Endlosschleife, identischer Start- und Endzustand sowie eine leichte Bewegung und Drehung bei 50 Prozent. Die gespeicherte Vorlage ist statisch und enthält keine Referenzanimation.
+- [x] Kartenrückseiten und Icons für jedes Theme mit der vorhandenen Komponentenübersicht abgeglichen; Details und zwei fehlende Einzelquellen stehen in `design/review/asset-audit.md`.
 
 Ein `header` innerhalb einer `section` ist grundsätzlich erlaubt. Die Änderung des Settings-Headers folgt der gewünschten Seitenstruktur; daraus folgt keine allgemeine Regel, dass jeder Header außerhalb von `main` stehen muss.
 
@@ -92,7 +93,7 @@ Ein `header` innerhalb einer `section` ist grundsätzlich erlaubt. Die Änderung
 - [x] Abbrechen setzt dieselbe Runde mit erhaltenen Karten und Punkten fort; Escape ist an dieselbe Aktion angebunden.
 - [x] Bestätigtes Verlassen führt zu den Settings und beendet laufende Vergleichstimer. Die Einstellungen bleiben erhalten.
 - [x] Weitere Kartenklicks bei geöffnetem Dialog gesperrt; beim Fortsetzen kehrt der Fokus zum Exit-Button zurück.
-- [ ] Abbrechen per Escape während eines Kartenvergleichs sowie das letzte passende Paar bei geöffnetem Dialog gezielt prüfen. Die bisherigen acht Logiktests decken diese Abläufe nicht vollständig ab.
+- [x] Abbrechen per Escape beziehungsweise `cancel` während eines Kartenvergleichs und das letzte passende Paar bei geöffnetem Dialog gezielt geprüft. Der Vergleich läuft korrekt weiter; nach dem letzten Paar erhält „Neue Runde“ den Fokus.
 
 ## 6. Prüfstand
 
@@ -101,8 +102,9 @@ Ein `header` innerhalb einer `section` ist grundsätzlich erlaubt. Die Änderung
 - [x] Alle vier Themes in Chrome bei 1440 × 1024 gestartet und jeweils eine Karte aufgedeckt. Die neuen Komponenten laden und behalten ihr Theme-Seitenverhältnis.
 - [x] Historischer Browsertest vom 15.09.2026: 24 Kombinationen aus vier Themes, zwei Layouts und drei Größen in breiter und schmaler Ansicht laut damaligem Prüfstand erfolgreich. Der Test verwendet Blue mit Light und Orange mit Dark; beide Startspieler werden nicht unabhängig mit jedem Layout kombiniert.
 - [x] Nach der Änderung am 17.09.2026: acht Logiktests und Produktions-Build erneut erfolgreich. Die tatsächliche Funktion `updateSelectionSummary` zusätzlich mit einfachen DOM-Platzhaltern für alle drei Größen ausgeführt: 16, 24 und 36 Karten sowie Theme, Spieler und Layout korrekt. Dies war keine visuelle Browserprüfung.
-- [ ] Beide Startspieler unabhängig vom Layout sowie Sieg und Gleichstand gezielt nachprüfen.
-- [ ] Nach weiteren Designänderungen neue Browser- und Bildvergleiche durchführen.
+- [x] Beide Startspieler unabhängig von Light und Dark sowie die Texte für Sieg und 4:4-Gleichstand mit automatisierten Logiktests geprüft.
+- [x] Nach dem Austausch der Karten-Komponenten neue Bildvergleiche aller vier Themes in Chrome durchgeführt.
+- [ ] Den erweiterten vollständigen Browsercheck für Maus, Tastatur, Touch, beide Startspieler, Sieg, Gleichstand, Escape und letztes Paar ausführen. Die Testseite ist vorbereitet; der Headless-Chrome-Aufruf wurde in dieser Sitzung nicht freigegeben.
 
 ## 7. Deine Lernkontrolle
 

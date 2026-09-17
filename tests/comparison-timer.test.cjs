@@ -92,6 +92,31 @@ test('exit dialog prevents another card selection', () => {
   assert.equal(game.run('flippedCards.length'), 0);
 });
 
+test('canceling the exit dialog continues a pending comparison', () => {
+  const game = setup(false);
+  game.run('openExitDialog(); continueGame()');
+  assert.equal(game.pending.size, 1);
+  game.flush();
+  assert.equal(game.run('activePlayer'), 'orange');
+  assert.equal(game.run('boardLocked'), false);
+});
+
+test('last pair can finish while the exit dialog is open', () => {
+  const game = setup(true);
+  game.run(`
+    for (const card of deck) {
+      if (!card.isFlipped) card.isMatched = true;
+    }
+    RESULT_OVERLAY.hidden = true;
+    openExitDialog();
+  `);
+  game.flush();
+  assert.equal(game.run('RESULT_OVERLAY.hidden'), false);
+  assert.equal(game.run('exitDialogOpen'), true);
+  game.run('continueGame()');
+  assert.equal(game.run('exitDialogOpen'), false);
+});
+
 for (const matched of [true, false]) {
   const kind = matched ? 'matching pair' : 'different cards';
 
@@ -130,3 +155,22 @@ for (const matched of [true, false]) {
     assert.equal(game.run('comparisonTimer'), null);
   });
 }
+
+for (const layout of ['light', 'dark']) {
+  for (const player of ['blue', 'orange']) {
+    test(`${player} starts with the ${layout} layout`, () => {
+      const game = setup(false);
+      game.run(`resetGameState("${player}")`);
+      assert.equal(game.run('activePlayer'), player);
+      assert.equal(game.run('scores.blue + scores.orange'), 0);
+    });
+  }
+}
+
+test('result text distinguishes a win from a draw', () => {
+  const game = setup(false);
+  game.run('scores = { blue: 5, orange: 3 }; updateResultText()');
+  assert.equal(game.run('RESULT_TITLE.textContent'), 'Blue wins!');
+  game.run('scores = { blue: 4, orange: 4 }; updateResultText()');
+  assert.equal(game.run('RESULT_TITLE.textContent'), 'It’s a draw!');
+});
