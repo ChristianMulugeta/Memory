@@ -14,7 +14,19 @@ Die Spielabläufe sind getestet und die am 14.09.2026 dokumentierten Hauptabweic
 - Code Vibes: dunkler neutraler Hintergrund und türkisfarbener Kartenverlauf.
 - Gaming: technische Orbitron-Schrift, Spielericons und pink umrandeter Exit-Button.
 - Food: Klee-One-Schrift, orangefarbene Rückseiten und beige Statusleiste.
-- Code Vibes, Gaming und Food verwenden die zuvor gewählten Emojis; DA Projects verwendet die vorhandenen Bilddateien einschließlich des Wellenbilds in der Vorschau.
+- Alle vier Themes verwenden jetzt die vorhandenen Bilddateien. Vorschau und Spielfeld lesen ihre Motive aus derselben Datenquelle; Emojis werden nicht mehr als Ersatzmotive verwendet.
+
+## Überarbeitung nach dem Mentorfeedback vom 15.09.2026
+
+- Der Controller-Ausschnitt zeigt Steuerkreuz und Tasten vollständig genug innerhalb der sichtbaren Fläche.
+- Der Settings-Header steht vor dem zentralen `main`-Element.
+- Die Vorschau reagiert beim Hover und Tastaturfokus auf Game Themes, ohne das ausgewählte Radio-Feld zu ändern.
+- Die Startleiste zeigt die vier gewählten Werte und bleibt durch reservierte Breiten stabil.
+- Vorschau und Startleiste besitzen entsprechend der Vorlage unterschiedliche Breiten.
+- Der neue Exit-Dialog bietet die Aktionen `No, back to game` und `Exit game`; bestätigter Exit führt zurück zu den Settings.
+- Vergleichsbilder liegen unter `mentor-home.png`, `mentor-settings.png`, `mentor-hover-gaming.png` und `mentor-exit.png`.
+
+Die Herkunft der im Repository vorhandenen Karten- und Bedienicons lässt sich aus dem Repository allein nicht sicher bestätigen. Für einen belastbaren Nachweis als Originalexporte wird die externe Designquelle benötigt.
 
 ## Umgesetzte Korrekturen
 

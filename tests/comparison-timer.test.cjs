@@ -6,7 +6,7 @@ const { test } = require('node:test');
 
 // Run the actual game logic with a minimal DOM and controllable timers.
 const source = ['src/game-types.ts', 'src/game-data.ts', 'src/main.ts']
-  .map(path => fs.readFileSync(path, 'utf8').replace(/^import .*;\r?$/gm, '').replace(/^export /gm, ''))
+  .map(path => fs.readFileSync(path, 'utf8').replace(/^import[\s\S]*?;\r?\n/gm, '').replace(/^export /gm, ''))
   .join('\n');
 const script = stripTypeScriptTypes(source);
 
@@ -15,11 +15,30 @@ function setup(matched) {
   let nextId = 0;
   const element = {
     addEventListener() {},
+    close() {},
+    dataset: {},
     querySelector() { return null; },
+    replaceChildren() {},
+    showModal() {},
     focus() {},
   };
   const context = vm.createContext({
-    document: { querySelector() { return { ...element }; } },
+    FormData: class {
+      get(name) {
+        const values = {
+          theme: 'food',
+          player: 'blue',
+          boardSize: '4x4',
+          layout: 'light',
+        };
+        return values[name] ?? null;
+      }
+    },
+    document: {
+      createElement() { return { ...element }; },
+      querySelector() { return { ...element }; },
+      querySelectorAll() { return []; },
+    },
     window: {
       setTimeout(callback) {
         pending.set(++nextId, callback);
@@ -50,6 +69,28 @@ function setup(matched) {
     },
   };
 }
+
+test('exit confirmation cancels a pending comparison', () => {
+  const game = setup(false);
+  game.run('confirmExit()');
+  assert.equal(game.pending.size, 0);
+  game.flush();
+  assert.equal(game.run('scores.blue + scores.orange'), 0);
+  assert.equal(game.run('activePlayer'), 'blue');
+});
+
+test('exit dialog prevents another card selection', () => {
+  const game = setup(false);
+  game.run(`
+    cancelComparison();
+    boardLocked = false;
+    flippedCards = [];
+    for (const card of deck) card.isFlipped = false;
+    openExitDialog();
+    handleCardClick(deck[0].id);
+  `);
+  assert.equal(game.run('flippedCards.length'), 0);
+});
 
 for (const matched of [true, false]) {
   const kind = matched ? 'matching pair' : 'different cards';

@@ -8,6 +8,13 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
+    <header id="settings-header" class="settings-header" hidden>
+      <div class="settings-header__inner">
+        <button id="back-button" class="back-button" type="button" aria-label="Zurück zum Homescreen"></button>
+        <h1 id="settings-title">Settings</h1>
+      </div>
+    </header>
+
     <main id="app" class="app">
       <section id="home-screen" class="screen home" aria-labelledby="home-title">
         <div class="home__content">
@@ -23,19 +30,14 @@
       </section>
       <section id="settings-screen" class="screen settings" aria-labelledby="settings-title" hidden>
         <div class="settings__inner">
-          <header class="settings__header">
-            <button id="back-button" class="back-button" type="button" aria-label="Zurück zum Homescreen">←</button>
-            <h2 id="settings-title">Settings</h2>
-          </header>
-
           <form id="settings-form" class="settings-form">
             <div class="settings-form__options">
               <fieldset class="option-group">
                 <legend><svg aria-hidden="true"><use href="/assets/icons.svg#palette"></use></svg>Game themes</legend>
-                <label><input type="radio" name="theme" value="code-vibes" /> Code vibes</label>
-                <label><input type="radio" name="theme" value="gaming" /> Gaming</label>
-                <label><input type="radio" name="theme" value="da-projects" checked /> DA Projects</label>
-                <label><input type="radio" name="theme" value="food" /> Food</label>
+                <label data-preview-theme="code-vibes"><input type="radio" name="theme" value="code-vibes" /> Code vibes theme</label>
+                <label data-preview-theme="gaming"><input type="radio" name="theme" value="gaming" /> Gaming theme</label>
+                <label data-preview-theme="da-projects"><input type="radio" name="theme" value="da-projects" checked /> DA Projects theme</label>
+                <label data-preview-theme="food"><input type="radio" name="theme" value="food" /> Foods theme</label>
               </fieldset>
 
               <fieldset class="option-group">
@@ -72,10 +74,13 @@
             </aside>
 
             <div class="settings-form__actions">
-              <span>Game theme</span><span class="settings-form__separator" aria-hidden="true"></span>
-              <span>Player</span><span class="settings-form__separator" aria-hidden="true"></span>
-              <span>Board size</span><span class="settings-form__separator" aria-hidden="true"></span>
-              <span>Layout</span>
+              <span id="selected-theme" class="settings-form__value">da-projects</span>
+              <span class="settings-form__separator" aria-hidden="true"></span>
+              <span id="selected-player" class="settings-form__value">blue</span>
+              <span class="settings-form__separator" aria-hidden="true"></span>
+              <span id="selected-board-size" class="settings-form__value">16 cards</span>
+              <span class="settings-form__separator" aria-hidden="true"></span>
+              <span id="selected-layout" class="settings-form__value">light</span>
               <button class="start-button" type="submit"><svg aria-hidden="true"><use href="/assets/icons.svg#start"></use></svg> Start</button>
             </div>
             <p id="settings-feedback" class="settings-form__feedback" role="status" aria-live="polite"></p>
@@ -95,6 +100,21 @@
         </header>
         <div id="game-board" class="game-board" aria-label="Memory-Karten"></div>
 
+        <dialog id="exit-dialog" class="exit-dialog" aria-labelledby="exit-dialog-title">
+          <div class="exit-dialog__content">
+            <p class="exit-dialog__eyebrow">Game paused</p>
+            <h2 id="exit-dialog-title">Exit game?</h2>
+            <p>Your current round will be lost.</p>
+            <div class="exit-dialog__actions">
+              <button id="back-to-game-button" class="back-to-game-button" type="button">No, back to game</button>
+              <button id="confirm-exit-button" class="confirm-exit-button" type="button">
+                <svg aria-hidden="true"><use href="/assets/icons.svg#exit"></use></svg>
+                Exit game
+              </button>
+            </div>
+          </div>
+        </dialog>
+
         <section id="result-overlay" class="result-overlay" role="dialog" aria-modal="true" aria-labelledby="result-title" hidden>
           <div class="result-card">
             <p class="result-card__eyebrow">Game over</p>
@@ -112,7 +132,7 @@
         </section>
       </section>
     </main>
-    <!-- Kartenstruktur; TypeScript ergänzt nur Motiv und Karten-ID. -->
+    <!-- TypeScript adds the motif and card ID to this reusable card structure. -->
     <template id="card-template">
       <button class="memory-card" type="button" aria-label="Verdeckte Memory-Karte">
         <span class="memory-card__inner" aria-hidden="true">

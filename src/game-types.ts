@@ -21,7 +21,6 @@ export interface MemoryCard {
   pairId: string;
   motif: string;
   label: string;
-  isImage: boolean;
   isFlipped: boolean;
   isMatched: boolean;
 }

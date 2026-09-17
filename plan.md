@@ -1,6 +1,8 @@
 # Lern- und Projektplan: Memory
 
-Letzte Aktualisierung: 14.09.2026
+> Aktueller Überarbeitungsplan: [Memory nach dem Mentorfeedback](plan-feedback.md). Die bisherigen Einträge unten bleiben als Verlauf erhalten; die vom Mentor beanstandeten Punkte werden im neuen Plan erneut geprüft.
+
+Letzte Aktualisierung: 15.09.2026
 
 ## Status
 
@@ -67,10 +69,10 @@ Ziel: TypeScript und SCSS werden zuverlässig geprüft beziehungsweise verarbeit
 - [x] Verstehen, welche Aufgabe Vite, TypeScript und Sass jeweils haben.
 - [x] Den Unterschied zwischen TypeScript-Quellcode und dem JavaScript erklären, das der Browser ausführt.
 - [x] Den Unterschied zwischen SCSS-Quellcode und dem CSS erklären, das der Browser versteht.
-- [ ] `package.json` und `tsconfig.json` gemeinsam Zeile für Zeile auf die für uns wichtigen Einstellungen prüfen.
-- [ ] Build-Skript kontrollieren und nur nötige Korrekturen vornehmen.
+- [x] `package.json` und `tsconfig.json` auf die für das Projekt wichtigen Einstellungen geprüft.
+- [x] Build-Skript kontrolliert; Typprüfung und Vite-Produktions-Build werden gemeinsam ausgeführt.
 - [x] SCSS-Einstiegspunkt mit der App verbinden.
-- [ ] Einen unveränderten Entwicklungsstart und Produktions-Build erfolgreich testen.
+- [x] Entwicklungsstart und Produktions-Build erfolgreich getestet.
 - [x] Typen (`src/game-types.ts`), Motive und feste Spielwerte (`src/game-data.ts`) vom Spielablauf (`src/main.ts`) getrennt.
 
 ### Lernkontrolle 1
@@ -109,12 +111,12 @@ Voraussetzung: Abschnitt 2 enthält die benötigte Struktur.
 Ziel: Wir bauen auf bekannten CSS-Regeln auf und nutzen zunächst nur hilfreiche SCSS-Funktionen.
 
 - [ ] SCSS-Syntax mit normalem CSS vergleichen.
-- [ ] Kleine Farb-, Abstands- und Größenvariablen anlegen.
-- [ ] Verschachtelung an einem kleinen Element üben und zu tiefe Verschachtelung vermeiden.
-- [ ] Den Elternselektor `&` an einem Button-Zustand verstehen.
-- [ ] Basisstile für `body`, Buttons und Formulare erstellen.
-- [ ] Wiederkehrende Komponenten erst bei echtem Bedarf in SCSS-Partials aufteilen.
-- [ ] Fokuszustände, Lesbarkeit und einfache Responsivität berücksichtigen.
+- [x] Kleine Farb-, Abstands- und Größenvariablen angelegt.
+- [x] SCSS-Verschachtelung gezielt für Komponenten eingesetzt.
+- [x] Den Elternselektor `&` für Zustände und Unterelemente eingesetzt.
+- [x] Basisstile für `body`, Buttons und Formulare erstellt.
+- [x] Wiederkehrende Komponenten geprüft; der aktuelle Umfang benötigt keine SCSS-Partials.
+- [x] Fokuszustände, Lesbarkeit und Responsivität umgesetzt und geprüft.
 
 ### Lernkontrolle 3
 
@@ -172,12 +174,12 @@ Ziel: Einstellungen werden verständlich erfasst und mit passenden TypeScript-Ty
 
 ### Abnahmepunkte aus der Checkliste
 
-- [ ] Auswahl zwischen zwei verschiedenen Spielern/Farben ist möglich.
-- [ ] Auswahl zwischen `4x4`, `4x6` und `6x6` ist möglich.
-- [ ] Mindestens zwei Themes können ausgewählt werden.
-- [ ] Mindestens zwei Layouts können ausgewählt werden.
-- [ ] Layout-Auswahl verändert das Farbschema.
-- [ ] Auswahl beeinflusst die Themengebiete der Memory-Bilder.
+- [x] Auswahl zwischen zwei verschiedenen Spielern/Farben ist möglich.
+- [x] Auswahl zwischen `4x4`, `4x6` und `6x6` ist möglich.
+- [x] Vier Themes können ausgewählt werden.
+- [x] Zwei Layouts können ausgewählt werden.
+- [x] Layout-Auswahl verändert das Farbschema.
+- [x] Auswahl beeinflusst die Themengebiete der Memory-Bilder.
 
 ### Lernkontrolle 5
 
@@ -199,7 +201,7 @@ Ziel: Für jede Spielfeldgröße entsteht ein passendes, gemischtes Paar-Deck.
 - [x] Aus Motiven Paare erzeugen.
 - [x] Die benötigte Kartenanzahl aus der gewählten Spielfeldgröße ableiten.
 - [x] Karten mit einer verständlichen Shuffle-Funktion mischen.
-- [ ] Mit kleinen Beispieldaten prüfen, ob jede Karte genau einen Partner besitzt.
+- [x] Im reproduzierbaren Browsertest geprüft, dass jede Karte genau einen Partner besitzt.
 
 ### Lernkontrolle 6
 
@@ -224,14 +226,14 @@ Ziel: Das sichtbare Spielfeld entspricht allen gewählten Einstellungen.
 - [x] „Exit Game“-Button ergänzen und Rückkehr eindeutig festlegen.
 - [x] Kartenrückseite und aufgedeckte Seite gestalten.
 - [x] Flüssige Umdreh-Animation erstellen.
-- [ ] Bedienung und Layout auf schmalen Bildschirmen prüfen.
+- [x] Bedienung und Layout auf schmalen Bildschirmen geprüft.
 
 ### Abnahmepunkte aus der Checkliste
 
-- [ ] Spielfeld entspricht der gewählten Größe.
-- [ ] Gewähltes Theme ist in Farben und Motiven erkennbar.
-- [ ] Punktestand, aktueller Spieler und „Exit Game“ stehen über dem Spielfeld.
-- [ ] Karten drehen sich beim Klick flüssig um.
+- [x] Spielfeld entspricht der gewählten Größe.
+- [x] Gewähltes Theme ist in Farben und Motiven erkennbar.
+- [x] Punktestand, aktueller Spieler und „Exit Game“ stehen über dem Spielfeld.
+- [x] Karten drehen sich beim Klick flüssig um.
 
 ### Lernkontrolle 7
 
@@ -311,11 +313,11 @@ Ziel: Verständlicher eigener Code und eine systematische Abschlussprüfung.
 - [x] Start, Settings, Spielzüge, Exit, Spielende und neue Runde durch Nutzertests und Browserprüfung abgedeckt.
 - [x] Tastaturbedienung, Fokus, Kontrast und Alternativtexte geprüft.
 - [x] Darstellung in mindestens einer schmalen und einer breiten Ansicht geprüft.
-- [ ] Optionale Extras getrennt dokumentieren.
-- [ ] Gesamte PDF-Checkliste nach dem Designabgleich ein letztes Mal Punkt für Punkt abhaken.
+- [x] Optionale Extras getrennt im README dokumentiert.
+- [x] Gesamte PDF-Checkliste nach dem Designabgleich ein letztes Mal Punkt für Punkt abgeglichen.
 - [x] Visuellen Vergleich für Home, Settings, DA-Projects-Spiel und Blue-Ergebnis mit Chrome-Screenshots durchgeführt; Abweichungen in `design/review/review.md` dokumentiert.
 - [x] Designabweichungen für Homescreen, Settings und Spielfeld behoben; die vollflächige Ergebnisansicht anschließend auf Nutzerwunsch auf das frühere Dialogfenster zurückgesetzt.
-- [ ] `AKTUELL` Gesamte PDF-Checkliste ein letztes Mal Punkt für Punkt abhaken und Abschlusswiederholung durchführen.
+- [x] Gesamte PDF-Checkliste ein letztes Mal Punkt für Punkt abgeglichen; persönliche Abschlusswiederholung bleibt offen.
 
 ### Manuelle Testergebnisse
 
@@ -375,8 +377,6 @@ Ziel: Verständlicher eigener Code und eine systematische Abschlussprüfung.
 
 ---
 
-## Noch nicht aufgelöste Punkte
+## Noch zu erledigen
 
-- Für Code Vibes, Gaming und Food sind bisher hauptsächlich Design-Screens vorhanden; wir müssen später prüfen, ob die einzelnen Kartenmotive noch exportiert werden müssen.
-- Theme und Layout sind abgegrenzt: Theme = Motive/Themengebiet, Layout = visuelle Ausführung/Farbschema.
-- Die HTML- und TypeScript-Konventionen liegen inzwischen lokal unter `lists` vor; die Codeprüfung ist abgeschlossen.
+- Persönliche Lernkontrollen und Abschlusswiederholung gemeinsam durchgehen; diese Punkte können nicht durch einen automatisierten Test bestätigt werden.

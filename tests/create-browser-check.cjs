@@ -12,6 +12,12 @@ window.addEventListener('load', async () => {
   const start = (theme, layout, size, player) => {
     find('#play-button').click();
     choose('theme', theme); choose('layout', layout); choose('boardSize', size); choose('player', player);
+    const hoverTheme = theme === 'gaming' ? 'food' : 'gaming';
+    find('[data-preview-theme="' + hoverTheme + '"]').dispatchEvent(new MouseEvent('mouseenter'));
+    assert(find('#settings-preview').dataset.theme === hoverTheme, 'theme hover preview');
+    assert(find('input[name="theme"][value="' + theme + '"]').checked, 'hover keeps selection');
+    find('[data-preview-theme="' + hoverTheme + '"]').dispatchEvent(new MouseEvent('mouseleave'));
+    assert(find('#settings-preview').dataset.theme === theme, 'hover preview resets');
     find('#settings-form').requestSubmit();
   };
   try {
@@ -21,15 +27,14 @@ window.addEventListener('load', async () => {
           const player = layout === 'dark' ? 'orange' : 'blue';
           start(theme, layout, size, player);
           assert(!find('#game-screen').hidden && cards().length === count, 'board ' + size);
+          assert(document.documentElement.scrollWidth <= window.innerWidth, 'no horizontal overflow');
           assert(cards().every(card => card.getAttribute('aria-label') === 'Verdeckte Memory-Karte'), 'concealed labels');
           for (const [preview, game] of [['#settings-preview', '#game-screen'], ['.settings-preview__status', '.game-status'], ['.preview-card--back', '.memory-card__back'], ['.preview-card--front', '.memory-card__front']]) {
             assert(getComputedStyle(find(preview)).background === getComputedStyle(find(game)).background, 'appearance ' + theme + ' ' + layout + ' ' + game);
           }
-          if (theme === 'da-projects') {
-            await wait(1000);
-            assert(cards().every(card => card.querySelector('img').naturalWidth > 0), 'image loaded');
-            assert(cards().every(card => card.querySelector('img').alt.length > 0), 'image alt');
-          }
+          await wait(1000);
+          assert(cards().every(card => card.querySelector('img').naturalWidth > 0), 'image loaded');
+          assert(cards().every(card => card.querySelector('img').alt.length > 0), 'image alt');
           const first = cards()[0];
           const other = cards().find(card => motif(card) !== motif(first));
           first.click(); other.click();
@@ -52,6 +57,12 @@ window.addEventListener('load', async () => {
           assert(find('#result-overlay').hidden && cards().length === count, 'restart');
           assert(find('#blue-score').textContent === '0' && find('#orange-score').textContent === '0', 'reset scores');
           find('#exit-button').click();
+          assert(find('#exit-dialog').open, 'exit dialog opens');
+          find('#back-to-game-button').click();
+          assert(!find('#exit-dialog').open && !find('#game-screen').hidden, 'back to game');
+          find('#exit-button').click();
+          find('#confirm-exit-button').click();
+          assert(!find('#exit-dialog').open && !find('#settings-screen').hidden, 'exit to settings');
           results.push(theme + ' / ' + layout + ' / ' + size);
         }
       }
@@ -60,7 +71,7 @@ window.addEventListener('load', async () => {
     find('input[name="theme"]:checked').checked = false;
     find('#settings-form').requestSubmit();
     assert(find('#game-screen').hidden && find('#settings-feedback').textContent.length > 0, 'invalid settings rejected');
-    document.body.textContent = 'PASS: ' + results.length + ' combinations; rendering, colors, images, labels, turns, completion, restart, validation';
+    document.body.textContent = 'PASS: ' + results.length + ' combinations; rendering, colors, images, labels, turns, completion, restart, exit dialog, validation';
   } catch (error) {
     document.body.textContent = 'FAIL after ' + results.length + ' combinations: ' + error.message;
   }

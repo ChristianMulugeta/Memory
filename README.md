@@ -13,7 +13,11 @@ Ein responsives Memory-Spiel für zwei Personen. Vor einer Runde lassen sich The
 - zwei Spieler mit Punktestand und Anzeige des aktuellen Spielers
 - Paarerkennung, Klicksperre während des Vergleichs und Spielerwechsel
 - Ergebnisanzeige für Sieg oder Gleichstand sowie Neustart und Rückkehr zum Start
+- Rückfrage vor dem Verlassen einer laufenden Runde und Rückkehr zu den Einstellungen
+- Vorschau beim Darüberfahren über die Game Themes
 - Tastaturbedienung, sichtbare Fokuszustände und responsive Darstellung
+
+Eine anfängerfreundliche Erklärung der wichtigsten Typen und Abläufe steht in [`CODE-ERKLAERUNG.md`](CODE-ERKLAERUNG.md).
 
 ## Lokale Entwicklung
 

@@ -8,8 +8,16 @@ window.addEventListener("load", async () => {
   if (view === "home") return;
   document.querySelector("#play-button").click();
   if (view === "settings") return;
+  if (view === "hover-gaming") {
+    document.querySelector('[data-preview-theme="gaming"]').dispatchEvent(new MouseEvent("mouseenter"));
+    return;
+  }
   document.querySelector("#settings-form").requestSubmit();
   if (view === "game") return;
+  if (view === "exit") {
+    document.querySelector("#exit-button").click();
+    return;
+  }
   if (view === "flipped") {
     document.querySelector(".memory-card").click();
     return;
