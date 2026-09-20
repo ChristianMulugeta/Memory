@@ -61,9 +61,9 @@
 
             <aside id="settings-preview" class="settings-preview" data-layout="light" data-theme="da-projects" aria-label="Preview of the selected settings">
               <div class="settings-preview__status">
-                <span class="score score--orange"><svg aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg> 0</span>
-                <span class="score score--blue"><svg aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg> 0</span>
-                <span class="current-player-label">Current player: <strong id="preview-player" class="player-badge preview-player--blue"><svg aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg></strong></span>
+                <span class="score score--orange"><svg class="standard-player-symbol" aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg><img class="code-vibes-player-symbol" src="./assets/original-icons/code-vibes-player-symbol/player-orange.png" alt="" /> 0</span>
+                <span class="score score--blue"><svg class="standard-player-symbol" aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg><img class="code-vibes-player-symbol" src="./assets/original-icons/code-vibes-player-symbol/player-blue.png" alt="" /> 0</span>
+                <span class="current-player-label">Current player: <strong id="preview-player" class="player-badge preview-player--blue"><svg class="standard-player-symbol" aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg><img class="code-vibes-player-symbol code-vibes-player-symbol--blue" src="./assets/original-icons/code-vibes-player-symbol/player-blue.png" alt="" /><img class="code-vibes-player-symbol code-vibes-player-symbol--orange" src="./assets/original-icons/code-vibes-player-symbol/player-orange.png" alt="" /></strong></span>
                 <span class="preview-exit"><svg aria-hidden="true"><use href="./assets/icons.svg#exit"></use></svg> Exit game</span>
               </div>
               <div class="settings-preview__cards" aria-hidden="true">
@@ -91,10 +91,10 @@
         <h2 id="game-title" class="visually-hidden">Memory board</h2>
         <header class="game-status">
           <div class="game-status__scores">
-            <span class="score score--orange"><svg aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg><strong id="orange-score">0</strong></span>
-            <span class="score score--blue"><svg aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg><strong id="blue-score">0</strong></span>
+            <span class="score score--orange"><svg class="standard-player-symbol" aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg><img class="code-vibes-player-symbol" src="./assets/original-icons/code-vibes-player-symbol/player-orange.png" alt="" /><strong id="orange-score">0</strong></span>
+            <span class="score score--blue"><svg class="standard-player-symbol" aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg><img class="code-vibes-player-symbol" src="./assets/original-icons/code-vibes-player-symbol/player-blue.png" alt="" /><strong id="blue-score">0</strong></span>
           </div>
-          <p class="current-player-label">Current player: <strong id="current-player" class="player-badge"><svg aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg><span class="visually-hidden">Blue</span></strong></p>
+          <p class="current-player-label">Current player: <strong id="current-player" class="player-badge"><svg class="standard-player-symbol" aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg><img class="code-vibes-player-symbol code-vibes-player-symbol--blue" src="./assets/original-icons/code-vibes-player-symbol/player-blue.png" alt="" /><img class="code-vibes-player-symbol code-vibes-player-symbol--orange" src="./assets/original-icons/code-vibes-player-symbol/player-orange.png" alt="" /><span class="visually-hidden">Blue</span></strong></p>
           <button id="exit-button" class="exit-button" type="button"><svg aria-hidden="true"><use href="./assets/icons.svg#exit"></use></svg> Exit game</button>
         </header>
         <div id="game-board" class="game-board" role="group" aria-label="Memory cards"></div>
@@ -114,14 +114,22 @@
           </div>
         </dialog>
 
-        <dialog id="result-overlay" class="result-overlay" aria-labelledby="result-title">
-          <div class="result-card">
+        <dialog id="result-overlay" class="result-overlay" aria-label="Game result" aria-live="polite">
+          <section class="game-over-card" aria-labelledby="game-over-title">
+            <h2 id="game-over-title" tabindex="-1">Game over</h2>
+            <p>Final score</p>
+            <div class="final-score" aria-label="Final score">
+              <span class="score score--blue"><svg class="standard-player-symbol" aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg><img class="code-vibes-player-symbol" src="./assets/original-icons/code-vibes-player-symbol/player-blue.png" alt="" />Blue <strong id="final-blue-score">0</strong></span>
+              <span class="score score--orange"><svg class="standard-player-symbol" aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg><img class="code-vibes-player-symbol" src="./assets/original-icons/code-vibes-player-symbol/player-orange.png" alt="" />Orange <strong id="final-orange-score">0</strong></span>
+            </div>
+          </section>
+          <section class="result-card">
             <p id="result-eyebrow" class="result-card__eyebrow">The winner is</p>
             <h2 id="result-title">Blue player</h2>
             <svg class="result-card__icon result-card__icon--winner" aria-hidden="true"><use href="./assets/icons.svg#pawn"></use></svg>
             <svg class="result-card__icon result-card__icon--draw" aria-hidden="true"><use href="./assets/icons.svg#balance"></use></svg>
             <button id="result-home-button" class="result-card__button" type="button">Back to start</button>
-          </div>
+          </section>
         </dialog>
       </section>
     </main>

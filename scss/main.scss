@@ -1,8 +1,8 @@
-@font-face { font-family: "Almarai"; src: url("/assets/fonts/almarai-regular.woff2") format("woff2"); font-weight: 400; }
-@font-face { font-family: "Almarai"; src: url("/assets/fonts/almarai-bold.woff2") format("woff2"); font-weight: 700; }
-@font-face { font-family: "Red Rose"; src: url("/assets/fonts/red-rose-bold.woff2") format("woff2"); font-weight: 700; }
-@font-face { font-family: "Orbitron"; src: url("/assets/fonts/orbitron-regular.woff2") format("woff2"); font-weight: 400; }
-@font-face { font-family: "Klee One"; src: url("/assets/fonts/klee-one-semibold.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "Almarai"; src: url("./assets/fonts/almarai-regular.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Almarai"; src: url("./assets/fonts/almarai-bold.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "Red Rose"; src: url("./assets/fonts/red-rose-bold.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "Orbitron"; src: url("./assets/fonts/orbitron-regular.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Klee One"; src: url("./assets/fonts/klee-one-semibold.woff2") format("woff2"); font-weight: 600; }
 
 $ink: #292c2b;
 $paper: #ffffff;
@@ -32,7 +32,7 @@ button { font: inherit; }
   &__controller {
     position: absolute;
     bottom: -8rem;
-    left: -5rem;
+    left: 0;
     width: clamp(27rem, 38vw, 39rem);
     height: auto;
     transform: rotate(4deg);
@@ -224,6 +224,17 @@ button { font: inherit; }
 .preview-player--orange, .score--orange { color: $orange; }
 .score { display: inline-flex; align-items: center; gap: 0.25rem; font-weight: 700; white-space: nowrap; }
 .score svg { width: 1.4em; height: 1.6em; }
+.code-vibes-player-symbol { display: none; width: 1.4em; height: 1.4em; object-fit: contain; }
+
+[data-theme="code-vibes"] {
+  .standard-player-symbol { display: none; }
+  .score > .code-vibes-player-symbol { display: block; }
+  .player-badge { border-radius: 0; background: transparent; }
+  .preview-player--blue .code-vibes-player-symbol--blue,
+  .score--blue .code-vibes-player-symbol--blue,
+  .preview-player--orange .code-vibes-player-symbol--orange,
+  .score--orange .code-vibes-player-symbol--orange { display: block; }
+}
 
 .current-player-label { color: #087fa6; font-weight: 700; }
 .player-badge {
@@ -364,6 +375,9 @@ button { font: inherit; }
 .game[data-theme="food"] .memory-card { border-radius: 0; }
 
 .result-overlay {
+  --result-background: #247f9d;
+  --game-over-title: #ff5d55;
+  --final-score-background: #ffffff;
   width: 100%;
   max-width: none;
   height: 100%;
@@ -373,18 +387,53 @@ button { font: inherit; }
   padding: clamp(1.5rem, 5vw, 4rem);
   border: 0;
   color: $paper;
-  background: $ink url("/assets/effects/confetti-wide.png") top center / 100% auto no-repeat;
+  background-color: var(--result-background);
+  background-position: top center;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  font-family: var(--theme-font);
 
   &[open] { display: grid; }
-  &[data-result="draw"] { background-image: none; }
-  &::backdrop { background: $ink; }
+  &[data-stage="winner"]:not([data-result="draw"]) { background-image: url("./assets/effects/confetti-wide.png"); }
+  &[data-theme="code-vibes"] { --result-background: #2d2f2e; --game-over-title: #4fd5c4; --final-score-background: #405251; }
+  &[data-theme="gaming"] { --result-background: #29566a; --game-over-title: #ef0b72; --final-score-background: #596681; }
+  &[data-theme="food"] { --result-background: #fff0df; --game-over-title: #fb8127; --final-score-background: #ffffff; color: #ad5200; }
+  &::backdrop { background: var(--result-background); }
 }
 
+.game-over-card,
 .result-card {
-  display: grid;
+  display: none;
   justify-items: center;
   width: min(100%, 46rem);
   text-align: center;
+}
+
+.result-overlay[data-stage="game-over"] .game-over-card,
+.result-overlay[data-stage="winner"] .result-card { display: grid; }
+
+.game-over-card {
+  width: min(100%, 80rem);
+  h2 { margin: 0 0 clamp(3rem, 9vh, 6rem); color: var(--game-over-title); font-family: "Red Rose", Georgia, serif; font-size: clamp(4rem, 9vw, 8rem); line-height: 0.9; text-transform: uppercase; text-shadow: 0 0.5rem 0.35rem rgba(0, 0, 0, 0.25); white-space: nowrap; }
+  h2:focus { outline: none; }
+  p { margin: 0 0 1.25rem; font-size: clamp(1.35rem, 2.8vw, 2.2rem); }
+}
+
+.final-score {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1rem 1.35rem;
+  color: $ink;
+  background: var(--final-score-background);
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 700;
+
+  .score--blue { color: #20a9ef; }
+  .score--orange { color: $orange; }
+}
+
+.result-card {
 
   &__eyebrow { margin: 0 0 0.55rem; font-size: clamp(1.4rem, 2.4vw, 2rem); }
   h2 { margin: 0; color: $blue; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; text-transform: uppercase; }
@@ -534,6 +583,7 @@ button { font: inherit; }
   .game-status p { grid-column: 1 / -1; grid-row: 2; justify-self: center; }
   .game-board { width: min(66vh, calc(100vw - 1.5rem)); }
   .exit-dialog__actions { flex-direction: column; }
+  .game-over-card h2 { font-size: 3.5rem; white-space: normal; }
 }
 
 @media (prefers-reduced-motion: reduce) {

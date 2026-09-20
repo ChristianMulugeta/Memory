@@ -15,6 +15,7 @@ import {
   MATCH_DELAY_MS,
   MISMATCH_DELAY_MS,
   PAIR_COUNTS,
+  RESULT_DELAY_MS,
 } from "./game-data";
 import "../scss/main.scss";
 
@@ -46,6 +47,9 @@ const RESULT_DIALOG: HTMLDialogElement | null = document.querySelector("#result-
 const RESULT_EYEBROW: HTMLElement | null = document.querySelector("#result-eyebrow");
 const RESULT_TITLE: HTMLElement | null = document.querySelector("#result-title");
 const RESULT_HOME_BUTTON: HTMLButtonElement | null = document.querySelector("#result-home-button");
+const GAME_OVER_TITLE: HTMLElement | null = document.querySelector("#game-over-title");
+const FINAL_BLUE_SCORE: HTMLElement | null = document.querySelector("#final-blue-score");
+const FINAL_ORANGE_SCORE: HTMLElement | null = document.querySelector("#final-orange-score");
 
 let gameSettings: GameSettings | null = null;
 let deck: MemoryCard[] = [];
@@ -54,6 +58,7 @@ let activePlayer: PlayerColor = "blue";
 let scores: Record<PlayerColor, number> = { blue: 0, orange: 0 };
 let boardLocked: boolean = false;
 let comparisonTimer: number | null = null;
+let resultTimer: number | null = null;
 let exitDialogOpen: boolean = false;
 
 /**
@@ -205,10 +210,10 @@ function showScreen(screen: Screen): void {
  */
 function shuffleCards(cards: MemoryCard[]): MemoryCard[] {
   const SHUFFLED_CARDS: MemoryCard[] = cards.slice();
-  for (let INDEX: number = SHUFFLED_CARDS.length - 1; INDEX > 0; INDEX -= 1) {
-    const RANDOM_INDEX: number = Math.floor(Math.random() * (INDEX + 1));
-    const CURRENT_CARD: MemoryCard = SHUFFLED_CARDS[INDEX];
-    SHUFFLED_CARDS[INDEX] = SHUFFLED_CARDS[RANDOM_INDEX];
+  for (let index: number = SHUFFLED_CARDS.length - 1; index > 0; index -= 1) {
+    const RANDOM_INDEX: number = Math.floor(Math.random() * (index + 1));
+    const CURRENT_CARD: MemoryCard = SHUFFLED_CARDS[index];
+    SHUFFLED_CARDS[index] = SHUFFLED_CARDS[RANDOM_INDEX];
     SHUFFLED_CARDS[RANDOM_INDEX] = CURRENT_CARD;
   }
   return SHUFFLED_CARDS;
@@ -251,8 +256,8 @@ function createDeck(settings: GameSettings): MemoryCard[] {
   const PAIR_COUNT: number = PAIR_COUNTS[settings.boardSize];
   const MOTIFS: CardMotif[] = getMotifs(settings.theme).slice(0, PAIR_COUNT);
   const CARDS: MemoryCard[] = [];
-  for (let INDEX: number = 0; INDEX < MOTIFS.length; INDEX += 1) {
-    CARDS.push(...createPair(MOTIFS[INDEX], INDEX));
+  for (let index: number = 0; index < MOTIFS.length; index += 1) {
+    CARDS.push(...createPair(MOTIFS[index], index));
   }
   return shuffleCards(CARDS);
 }
@@ -327,18 +332,39 @@ function cancelComparison(): void {
 }
 
 /**
+ * Stops the automatic change from the score screen to the winner screen.
+ * @returns Nothing.
+ */
+function cancelResultTimer(): void {
+  if (resultTimer === null) return;
+  window.clearTimeout(resultTimer);
+  resultTimer = null;
+}
+
+/**
  * Resets the changing values for a new round.
  * @param startingPlayer - The player who begins the new round.
  * @returns Nothing.
  */
 function resetGameState(startingPlayer: PlayerColor): void {
   cancelComparison();
+  cancelResultTimer();
   flippedCards = [];
   activePlayer = startingPlayer;
   scores = { blue: 0, orange: 0 };
   boardLocked = false;
   exitDialogOpen = false;
   if (RESULT_DIALOG?.open) RESULT_DIALOG.close();
+}
+
+/**
+ * Replaces the final score with the winner or draw result.
+ * @returns Nothing.
+ */
+function showWinnerResult(): void {
+  resultTimer = null;
+  if (RESULT_DIALOG) RESULT_DIALOG.dataset.stage = "winner";
+  RESULT_HOME_BUTTON?.focus();
 }
 
 /**
@@ -361,8 +387,14 @@ function updateResultText(): void {
 function finishGame(): void {
   boardLocked = true;
   updateResultText();
+  if (FINAL_BLUE_SCORE) FINAL_BLUE_SCORE.textContent = String(scores.blue);
+  if (FINAL_ORANGE_SCORE) FINAL_ORANGE_SCORE.textContent = String(scores.orange);
+  if (RESULT_DIALOG) RESULT_DIALOG.dataset.stage = "game-over";
+  if (gameSettings) applyAppearance(RESULT_DIALOG, gameSettings);
   if (RESULT_DIALOG && !RESULT_DIALOG.open) RESULT_DIALOG.showModal();
-  RESULT_HOME_BUTTON?.focus();
+  GAME_OVER_TITLE?.focus();
+  cancelResultTimer();
+  resultTimer = window.setTimeout(showWinnerResult, RESULT_DELAY_MS);
 }
 
 /**
@@ -531,7 +563,8 @@ function continueGame(): void {
   exitDialogOpen = false;
   EXIT_DIALOG?.close();
   if (RESULT_DIALOG?.open) {
-    RESULT_HOME_BUTTON?.focus();
+    if (RESULT_DIALOG.dataset.stage === "winner") RESULT_HOME_BUTTON?.focus();
+    else GAME_OVER_TITLE?.focus();
     return;
   }
   EXIT_BUTTON?.focus();
@@ -544,6 +577,8 @@ function continueGame(): void {
 function confirmExit(): void {
   exitDialogOpen = false;
   EXIT_DIALOG?.close();
+  cancelResultTimer();
+  if (RESULT_DIALOG?.open) RESULT_DIALOG.close();
   updatePreview();
   showScreen("settings");
 }
@@ -553,6 +588,7 @@ function confirmExit(): void {
  * @returns Nothing.
  */
 function returnHome(): void {
+  cancelResultTimer();
   if (RESULT_DIALOG?.open) RESULT_DIALOG.close();
   showScreen("home");
 }

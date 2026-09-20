@@ -2,6 +2,7 @@ import type { BoardSize, CardMotif, Theme } from "./game-types";
 
 export const MATCH_DELAY_MS: number = 450;
 export const MISMATCH_DELAY_MS: number = 900;
+export const RESULT_DELAY_MS: number = 5000;
 export const CARDS_PER_PAIR: number = 2;
 
 export const PAIR_COUNTS: Record<BoardSize, number> = {

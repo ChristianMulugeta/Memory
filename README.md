@@ -52,7 +52,7 @@ Für die Veröffentlichung wird der **Inhalt** von `dist/` in das Webverzeichnis
 - `src/`: TypeScript-Typen, feste Spieldaten und Spiellogik
 - `scss/`: Stylesheet der App
 - `public/assets/cards/`: die 18 Karten-Komponenten jedes Themes
-- `public/assets/fonts/`: lokale Schriftarten und ihre Lizenzen
+- `scss/assets/`: von Vite gebündelte Schriftarten und Ergebniseffekte
 - `design/`: bereitgestellte Designvorlagen
 - `tests/`: automatisierte Logiktests
 

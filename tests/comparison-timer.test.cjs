@@ -175,3 +175,13 @@ test('result text distinguishes a win from a draw', () => {
   game.run('scores = { blue: 4, orange: 4 }; updateResultText()');
   assert.equal(game.run('RESULT_TITLE.textContent'), 'Draw');
 });
+
+test('game over shows the final score before the winner', () => {
+  const game = setup(false);
+  game.run('cancelComparison(); scores = { blue: 5, orange: 3 }; finishGame()');
+  assert.equal(game.run('RESULT_DIALOG.dataset.stage'), 'game-over');
+  assert.equal(game.run('FINAL_BLUE_SCORE.textContent'), '5');
+  assert.equal(game.run('FINAL_ORANGE_SCORE.textContent'), '3');
+  game.flush();
+  assert.equal(game.run('RESULT_DIALOG.dataset.stage'), 'winner');
+});
