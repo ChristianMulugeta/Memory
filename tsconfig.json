@@ -1,27 +1,27 @@
 {
-"compilerOptions": {
-    /* Sprache & Zielumgebung */
-    "target": "ESNext",                  // moderne Syntax, gut für Browser + Vite
-    "lib": ["ESNext", "DOM"],            // Browser-APIs und moderne JS-Funktionen
+  "compilerOptions": {
+    /* Language and target environment */
+    "target": "ESNext",                  // Modern syntax for browsers and Vite
+    "lib": ["ESNext", "DOM"],            // Browser APIs and modern JavaScript features
 
 
-    /* Module & Auflösung */
-    "module": "ESNext",                  // ES Modules für Vite/Rollup
-    "moduleResolution": "Bundler",       // spezielle Auflösung für Vite, ersetzt "node"
-    "isolatedModules": true,             // jede Datei wird wie ein Modul behandelt
+    /* Modules and resolution */
+    "module": "ESNext",                  // ES Modules for Vite and Rollup
+    "moduleResolution": "Bundler",       // Bundler-aware resolution for Vite
+    "isolatedModules": true,             // Treat every file as an isolated module
 
 
-    /* Typprüfung */
-    "strict": true,                      // alle strikten Checks aktivieren
-    "skipLibCheck": true,                // schneller, da node_modules-Typen nicht geprüft werden
-    "noEmit": true,                      // keine JS-Ausgabe, Build übernimmt Vite
+    /* Type checking */
+    "strict": true,                      // Enable all strict checks
+    "skipLibCheck": true,                // Skip dependency declarations for faster checks
+    "noEmit": true,                      // Let Vite produce the JavaScript output
 
 
-    /* Sonstiges */
-    "esModuleInterop": true,             // bessere Import-Kompatibilität
-    "resolveJsonModule": true,           // erlaubt `import data from './data.json'`
+    /* Other options */
+    "esModuleInterop": true,             // Improve module import compatibility
+    "resolveJsonModule": true,           // Allow JSON module imports
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"],                    // nur eigenen Code kompilieren
-  "exclude": ["node_modules", "dist"]    // keine Fremd- oder Build-Dateien prüfen
+  "include": ["src"],                    // Compile the application source only
+  "exclude": ["node_modules", "dist"]    // Ignore dependencies and build output
 }

@@ -34,31 +34,24 @@ button { font: inherit; }
     bottom: -8rem;
     left: -5rem;
     width: clamp(27rem, 38vw, 39rem);
-    height: clamp(20.25rem, 28.5vw, 29.25rem);
-    color: #393c34;
+    height: auto;
     transform: rotate(4deg);
     animation: controller-float 5s ease-in-out infinite;
   }
 }
 
 .play-button {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
+  display: block;
   margin: clamp(4rem, 9vh, 7rem) auto 0;
-  padding: 1.25rem 1.8rem;
+  padding: 0;
   border: 0;
-  color: $ink;
-  background: $yellow;
-  font-size: clamp(1.6rem, 2.8vw, 2.5rem);
-  font-weight: 700;
+  background: transparent;
   cursor: pointer;
   transition: transform 180ms ease, box-shadow 180ms ease;
 
   &:hover { transform: translateY(-4px); box-shadow: 0 0.7rem 0 rgba(0, 0, 0, 0.2); }
   &:focus-visible { outline: 4px solid $paper; outline-offset: 5px; }
-  &__icon { width: 1.4em; height: 1.1em; }
-  &__arrow { margin-left: 0.25rem; font-size: 1.25em; font-weight: 400; }
+  img { display: block; width: clamp(13rem, 19vw, 17.4rem); height: auto; }
 }
 
 .settings-header {
@@ -69,16 +62,13 @@ button { font: inherit; }
 
   &__inner {
     position: relative;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
     width: min(100%, 1240px);
     margin: 0 auto;
 
     &::after {
       position: absolute;
       bottom: -0.6rem;
-      left: 0;
+      left: 0.6rem;
       width: 20rem;
       height: 0.3rem;
       background: $yellow;
@@ -104,7 +94,7 @@ button { font: inherit; }
   &__inner { display: flex; flex-direction: column; width: min(100%, 1240px); height: 100%; margin: 0 auto; }
 }
 
-.back-button { z-index: 1; width: 1.15rem; height: 1.15rem; padding: 0; border: 0; color: transparent; background: $yellow; transform: rotate(45deg); cursor: pointer; }
+.back-button { position: absolute; z-index: 1; bottom: -1.05rem; left: 0; width: 1.15rem; height: 1.15rem; padding: 0; border: 0; color: transparent; background: $yellow; transform: rotate(45deg); cursor: pointer; }
 
 .settings-form {
   flex: 1 1 auto;
@@ -168,23 +158,30 @@ button { font: inherit; }
     width: 22rem;
     min-height: 1.5rem;
     margin-left: 2.7rem;
-    font-size: 1.05rem;
+    color: $ink;
+    font-size: 1.15rem;
     cursor: pointer;
   }
   input { width: 1.2rem; height: 1.2rem; margin: 0; accent-color: $ink; }
   label:hover,
   label:focus-within,
   label:has(input:checked) { font-weight: 700; }
-  label:hover::after,
-  label:focus-within::after,
-  label:has(input:checked)::after {
+  &:first-child label:has(input:checked)::after {
     position: absolute;
     left: 16rem;
     width: 2.5rem;
     height: 0.18rem;
     background: $yellow;
-    box-shadow: 0.55rem 0 0 -0.05rem $yellow;
     content: "";
+  }
+  &:first-child label:has(input:checked)::before {
+    position: absolute;
+    left: 18.3rem;
+    width: 0.7rem;
+    height: 0.7rem;
+    background: $yellow;
+    content: "";
+    transform: rotate(45deg);
   }
 }
 
@@ -208,26 +205,40 @@ button { font: inherit; }
 
 .settings-preview {
   align-self: end;
+  justify-self: end;
   width: 86%;
   height: min(430px, 100%);
   min-height: 300px;
   padding: 1.25rem;
   border-radius: 1.2rem;
   color: var(--surface-text);
-  background: var(--board-background);
-  box-shadow: inset 0 0 0 1.25rem color-mix(in srgb, var(--card-back-color) 28%, transparent);
+  background: color-mix(in srgb, var(--card-back-color) 28%, var(--board-background));
   font-family: var(--theme-font);
 
-  &__status { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.75rem 1rem; border-radius: 0.75rem; background: var(--status-background); font-size: 0.72rem; box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.15); }
+  &__status { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.75rem 1rem; border-radius: 0.75rem; background: $paper; font-size: 0.72rem; box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.15); }
   &__status svg { width: 1.2em; height: 1.2em; vertical-align: middle; }
   &__cards { position: relative; width: min(300px, 65%); height: min(235px, 60%); margin: clamp(1.5rem, 6vh, 4rem) auto 0; }
 }
 
-.preview-player { display: inline-flex; font-size: 1.1rem; }
 .preview-player--blue, .score--blue { color: $blue; }
 .preview-player--orange, .score--orange { color: $orange; }
 .score { display: inline-flex; align-items: center; gap: 0.25rem; font-weight: 700; white-space: nowrap; }
 .score svg { width: 1.4em; height: 1.6em; }
+
+.current-player-label { color: #087fa6; font-weight: 700; }
+.player-badge {
+  display: inline-grid;
+  place-items: center;
+  width: 2em;
+  height: 2em;
+  border-radius: 0.35rem;
+  color: $paper;
+  background: $blue;
+}
+.player-badge.score--orange { background: $orange; }
+.player-badge.preview-player--orange { background: $orange; }
+.player-badge svg { width: 1.2em; height: 1.45em; }
+.preview-exit { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.45rem 0.65rem; border-radius: 0.4rem; color: #087fa6; background: #bfe7f4; font-weight: 700; }
 
 .preview-card {
   position: absolute;
@@ -291,8 +302,7 @@ button { font: inherit; }
 
   &__scores { display: flex; gap: 0.9rem; width: fit-content; padding: 0.55rem 0.8rem; border-radius: 0.65rem; background: $paper; }
   p { display: flex; align-items: center; gap: 0.75rem; margin: 0; }
-  p strong { display: inline-flex; }
-  p svg { width: 1.6em; height: 1.8em; }
+  p svg { width: 1.2em; height: 1.45em; }
 }
 
 .exit-button {
@@ -304,15 +314,15 @@ button { font: inherit; }
   border: 2px solid transparent;
   border-radius: 0.55rem;
   color: var(--surface-text);
-  background: color-mix(in srgb, var(--status-background) 62%, white);
+  background: #bfe7f4;
   font-weight: 700;
   cursor: pointer;
   svg { width: 1.35em; height: 1.35em; }
 }
 
 .game[data-theme="code-vibes"] .exit-button,
-.game[data-theme="gaming"] .exit-button { border-color: var(--card-back-color); background: transparent; color: $paper; }
-.game[data-theme="food"] .exit-button { border-color: #fb8127; background: $paper; }
+.game[data-theme="gaming"] .exit-button,
+.game[data-theme="food"] .exit-button { color: #087fa6; background: #bfe7f4; }
 
 .exit-button:hover {
   border-color: $yellow;
@@ -324,7 +334,7 @@ button { font: inherit; }
   --board-columns: 4;
   display: grid;
   grid-template-columns: repeat(var(--board-columns), minmax(0, 1fr));
-  gap: clamp(0.45rem, 1.15vh, 0.9rem);
+  gap: clamp(0.75rem, 1.8vh, 1.25rem);
   width: min(60vh, 590px, calc(100vw - 2rem));
   margin: 0 auto;
 }
@@ -354,30 +364,43 @@ button { font: inherit; }
 .game[data-theme="food"] .memory-card { border-radius: 0; }
 
 .result-overlay {
-  position: fixed;
-  z-index: 10;
-  inset: 0;
-  display: grid;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
   place-items: center;
-  padding: 1.5rem;
-  background: rgba(21, 25, 24, 0.78) url("/assets/effects/confetti-wide.png") center / cover no-repeat;
+  padding: clamp(1.5rem, 5vw, 4rem);
+  border: 0;
+  color: $paper;
+  background: $ink url("/assets/effects/confetti-wide.png") top center / 100% auto no-repeat;
+
+  &[open] { display: grid; }
+  &[data-result="draw"] { background-image: none; }
+  &::backdrop { background: $ink; }
 }
 
 .result-card {
-  width: min(100%, 600px);
-  padding: clamp(2rem, 6vw, 4rem);
-  border-radius: 1.5rem;
-  color: $ink;
-  background: $paper;
+  display: grid;
+  justify-items: center;
+  width: min(100%, 46rem);
   text-align: center;
-  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.35);
 
-  &__eyebrow { margin: 0 0 0.5rem; color: #167da8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; }
-  h2 { margin: 0; font-family: "Red Rose", Georgia, serif; font-size: clamp(3rem, 9vw, 5rem); line-height: 1; }
-  &__message { font-size: 1.15rem; }
-  &__scores { display: flex; justify-content: center; gap: 2rem; margin: 2rem 0; font-size: 1.25rem; }
-  &__actions { display: flex; justify-content: center; gap: 1rem; }
+  &__eyebrow { margin: 0 0 0.55rem; font-size: clamp(1.4rem, 2.4vw, 2rem); }
+  h2 { margin: 0; color: $blue; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; text-transform: uppercase; }
+  &__icon { width: clamp(9rem, 18vw, 15rem); height: clamp(11rem, 22vw, 18rem); margin: clamp(1.5rem, 4vh, 3rem) 0; color: $blue; }
+  &__icon--draw { display: none; width: clamp(12rem, 23vw, 19rem); }
+  &__button { padding: 0.75rem 1.15rem; border: 1px solid #32b6bc; color: $paper; background: #31595b; font-weight: 700; cursor: pointer; }
+  &__button:hover { color: $ink; background: $yellow; }
+  &__button:focus-visible { outline: 3px solid $yellow; outline-offset: 4px; }
 }
+
+.result-overlay[data-result="orange"] .result-card h2,
+.result-overlay[data-result="orange"] .result-card__icon { color: $orange; }
+.result-overlay[data-result="draw"] .result-card h2,
+.result-overlay[data-result="draw"] .result-card__icon { color: #ff5d55; }
+.result-overlay[data-result="draw"] .result-card__icon--winner { display: none; }
+.result-overlay[data-result="draw"] .result-card__icon--draw { display: block; }
 
 .exit-dialog {
   width: min(90vw, 34rem);
@@ -476,7 +499,6 @@ button { font: inherit; }
   .settings-form { grid-template-columns: 1fr; grid-template-rows: auto; }
   .settings-form__actions, .settings-form__feedback { grid-column: auto; }
   .settings-preview { min-height: 360px; }
-  .score__name { display: none; }
 }
 
 @media (min-width: 901px) and (max-height: 800px) {
@@ -499,13 +521,18 @@ button { font: inherit; }
   .home__content { margin-top: 18vh; transform: none; }
   .home__title { white-space: normal; }
   .play-button { margin-inline: 0; }
-  .settings-preview { display: none; }
-  .settings-form__actions span { display: none; }
-  .start-button { width: 100%; }
+  .option-group label { width: auto; }
+  .settings-preview { display: block; width: 100%; min-height: 280px; }
+  .settings-preview__status { flex-wrap: wrap; justify-content: center; }
+  .settings-preview__cards { margin-top: 2rem; }
+  .settings-form__actions { flex-wrap: wrap; justify-content: center; }
+  .settings-form__actions span { display: inline-block; }
+  .settings-form__actions .settings-form__separator { display: none; }
+  .settings-form__value { flex: 1 1 40%; min-width: 0; }
+  .start-button { flex-basis: 100%; width: 100%; }
   .game-status { grid-template-columns: 1fr auto; }
   .game-status p { grid-column: 1 / -1; grid-row: 2; justify-self: center; }
   .game-board { width: min(66vh, calc(100vw - 1.5rem)); }
-  .result-card__actions { flex-direction: column; }
   .exit-dialog__actions { flex-direction: column; }
 }
 

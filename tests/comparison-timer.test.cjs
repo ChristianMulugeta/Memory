@@ -15,11 +15,12 @@ function setup(matched) {
   let nextId = 0;
   const element = {
     addEventListener() {},
-    close() {},
+    close() { this.open = false; },
     dataset: {},
+    open: false,
     querySelector() { return null; },
     replaceChildren() {},
-    showModal() {},
+    showModal() { this.open = true; },
     focus() {},
   };
   const context = vm.createContext({
@@ -107,11 +108,11 @@ test('last pair can finish while the exit dialog is open', () => {
     for (const card of deck) {
       if (!card.isFlipped) card.isMatched = true;
     }
-    RESULT_OVERLAY.hidden = true;
+    RESULT_DIALOG.close();
     openExitDialog();
   `);
   game.flush();
-  assert.equal(game.run('RESULT_OVERLAY.hidden'), false);
+  assert.equal(game.run('RESULT_DIALOG.open'), true);
   assert.equal(game.run('exitDialogOpen'), true);
   game.run('continueGame()');
   assert.equal(game.run('exitDialogOpen'), false);
@@ -170,7 +171,7 @@ for (const layout of ['light', 'dark']) {
 test('result text distinguishes a win from a draw', () => {
   const game = setup(false);
   game.run('scores = { blue: 5, orange: 3 }; updateResultText()');
-  assert.equal(game.run('RESULT_TITLE.textContent'), 'Blue wins!');
+  assert.equal(game.run('RESULT_TITLE.textContent'), 'Blue player');
   game.run('scores = { blue: 4, orange: 4 }; updateResultText()');
-  assert.equal(game.run('RESULT_TITLE.textContent'), 'It’s a draw!');
+  assert.equal(game.run('RESULT_TITLE.textContent'), 'Draw');
 });

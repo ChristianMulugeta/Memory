@@ -12,12 +12,10 @@ Ein responsives Memory-Spiel für zwei Personen. Vor einer Runde lassen sich The
 - Spielfelder mit 4 × 4, 4 × 6 oder 6 × 6 Karten
 - zwei Spieler mit Punktestand und Anzeige des aktuellen Spielers
 - Paarerkennung, Klicksperre während des Vergleichs und Spielerwechsel
-- Ergebnisanzeige für Sieg oder Gleichstand sowie Neustart und Rückkehr zum Start
+- Ergebnisanzeige für Sieg oder Gleichstand sowie Rückkehr zum Start
 - Rückfrage vor dem Verlassen einer laufenden Runde und Rückkehr zu den Einstellungen
 - Vorschau beim Darüberfahren über die Game Themes
 - Tastaturbedienung, sichtbare Fokuszustände und responsive Darstellung
-
-Eine anfängerfreundliche Erklärung der wichtigsten Typen und Abläufe steht in [`CODE-ERKLAERUNG.md`](CODE-ERKLAERUNG.md).
 
 ## Lokale Entwicklung
 
@@ -55,9 +53,9 @@ Für die Veröffentlichung wird der **Inhalt** von `dist/` in das Webverzeichnis
 - `scss/`: Stylesheet der App
 - `public/assets/cards/`: die 18 Karten-Komponenten jedes Themes
 - `public/assets/fonts/`: lokale Schriftarten und ihre Lizenzen
-- `design/`: Designvorlagen und dokumentierte Vergleichsbilder
-- `tests/`: automatisierte Logik- und Browserprüfungen
+- `design/`: bereitgestellte Designvorlagen
+- `tests/`: automatisierte Logiktests
 
 ## Optionale Erweiterungen
 
-Über die Pflichtanforderungen hinaus enthält das Projekt vier Themes, drei Spielfeldgrößen, zwei Layouts, lokale Schriftarten, eine responsive Darstellung, reduzierte Animationen bei entsprechender Systemeinstellung, eine Ergebnisanzeige mit Konfetti sowie automatisierte Regressionstests für verzögerte Kartenvergleiche.
+Über die Pflichtanforderungen hinaus enthält das Projekt vier Themes, drei Spielfeldgrößen, zwei Layouts, lokale Schriftarten, eine responsive Darstellung, reduzierte Animationen bei entsprechender Systemeinstellung, eine Ergebnisanzeige mit Konfetti sowie einen automatisierten Regressionstest für verzögerte Kartenvergleiche.

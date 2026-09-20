@@ -42,12 +42,9 @@ const CONFIRM_EXIT_BUTTON: HTMLButtonElement | null = document.querySelector("#c
 const CURRENT_PLAYER: HTMLElement | null = document.querySelector("#current-player");
 const BLUE_SCORE: HTMLElement | null = document.querySelector("#blue-score");
 const ORANGE_SCORE: HTMLElement | null = document.querySelector("#orange-score");
-const RESULT_OVERLAY: HTMLElement | null = document.querySelector("#result-overlay");
+const RESULT_DIALOG: HTMLDialogElement | null = document.querySelector("#result-overlay");
+const RESULT_EYEBROW: HTMLElement | null = document.querySelector("#result-eyebrow");
 const RESULT_TITLE: HTMLElement | null = document.querySelector("#result-title");
-const RESULT_MESSAGE: HTMLElement | null = document.querySelector("#result-message");
-const FINAL_BLUE_SCORE: HTMLElement | null = document.querySelector("#final-blue-score");
-const FINAL_ORANGE_SCORE: HTMLElement | null = document.querySelector("#final-orange-score");
-const NEW_ROUND_BUTTON: HTMLButtonElement | null = document.querySelector("#new-round-button");
 const RESULT_HOME_BUTTON: HTMLButtonElement | null = document.querySelector("#result-home-button");
 
 let gameSettings: GameSettings | null = null;
@@ -166,9 +163,9 @@ function getThemeName(theme: Theme): string {
 function updateSelectionSummary(settings: GameSettings): void {
   const CARD_COUNT: number = PAIR_COUNTS[settings.boardSize] * CARDS_PER_PAIR;
   if (SELECTED_THEME) SELECTED_THEME.textContent = getThemeName(settings.theme);
-  if (SELECTED_PLAYER) SELECTED_PLAYER.textContent = settings.player;
+  if (SELECTED_PLAYER) SELECTED_PLAYER.textContent = settings.player === "blue" ? "Blue" : "Orange";
   if (SELECTED_BOARD_SIZE) SELECTED_BOARD_SIZE.textContent = `${CARD_COUNT} cards`;
-  if (SELECTED_LAYOUT) SELECTED_LAYOUT.textContent = settings.layout;
+  if (SELECTED_LAYOUT) SELECTED_LAYOUT.textContent = settings.layout === "light" ? "Light" : "Dark";
 }
 
 /**
@@ -184,7 +181,7 @@ function updatePreview(previewTheme?: Theme): void {
   applyAppearance(SETTINGS_PREVIEW, PREVIEW_SETTINGS);
   updatePreviewImage(THEME);
   updateSelectionSummary(SETTINGS);
-  if (PREVIEW_PLAYER) PREVIEW_PLAYER.className = `preview-player preview-player--${SETTINGS.player}`;
+  if (PREVIEW_PLAYER) PREVIEW_PLAYER.className = `player-badge preview-player--${SETTINGS.player}`;
 }
 
 /**
@@ -208,10 +205,10 @@ function showScreen(screen: Screen): void {
  */
 function shuffleCards(cards: MemoryCard[]): MemoryCard[] {
   const SHUFFLED_CARDS: MemoryCard[] = cards.slice();
-  for (let index: number = SHUFFLED_CARDS.length - 1; index > 0; index -= 1) {
-    const RANDOM_INDEX: number = Math.floor(Math.random() * (index + 1));
-    const CURRENT_CARD: MemoryCard = SHUFFLED_CARDS[index];
-    SHUFFLED_CARDS[index] = SHUFFLED_CARDS[RANDOM_INDEX];
+  for (let INDEX: number = SHUFFLED_CARDS.length - 1; INDEX > 0; INDEX -= 1) {
+    const RANDOM_INDEX: number = Math.floor(Math.random() * (INDEX + 1));
+    const CURRENT_CARD: MemoryCard = SHUFFLED_CARDS[INDEX];
+    SHUFFLED_CARDS[INDEX] = SHUFFLED_CARDS[RANDOM_INDEX];
     SHUFFLED_CARDS[RANDOM_INDEX] = CURRENT_CARD;
   }
   return SHUFFLED_CARDS;
@@ -254,8 +251,8 @@ function createDeck(settings: GameSettings): MemoryCard[] {
   const PAIR_COUNT: number = PAIR_COUNTS[settings.boardSize];
   const MOTIFS: CardMotif[] = getMotifs(settings.theme).slice(0, PAIR_COUNT);
   const CARDS: MemoryCard[] = [];
-  for (let index: number = 0; index < MOTIFS.length; index += 1) {
-    CARDS.push(...createPair(MOTIFS[index], index));
+  for (let INDEX: number = 0; INDEX < MOTIFS.length; INDEX += 1) {
+    CARDS.push(...createPair(MOTIFS[INDEX], INDEX));
   }
   return shuffleCards(CARDS);
 }
@@ -311,7 +308,7 @@ function renderBoard(settings: GameSettings): void {
  */
 function updateStatus(): void {
   if (CURRENT_PLAYER) {
-    CURRENT_PLAYER.className = `score--${activePlayer}`;
+    CURRENT_PLAYER.className = `player-badge score--${activePlayer}`;
     const LABEL: HTMLElement | null = CURRENT_PLAYER.querySelector("span");
     if (LABEL) LABEL.textContent = activePlayer === "blue" ? "Blue" : "Orange";
   }
@@ -341,7 +338,7 @@ function resetGameState(startingPlayer: PlayerColor): void {
   scores = { blue: 0, orange: 0 };
   boardLocked = false;
   exitDialogOpen = false;
-  if (RESULT_OVERLAY) RESULT_OVERLAY.hidden = true;
+  if (RESULT_DIALOG?.open) RESULT_DIALOG.close();
 }
 
 /**
@@ -350,12 +347,11 @@ function resetGameState(startingPlayer: PlayerColor): void {
  */
 function updateResultText(): void {
   const IS_DRAW: boolean = scores.blue === scores.orange;
-  const WINNER: string = scores.blue > scores.orange ? "Blue" : "Orange";
-  if (RESULT_TITLE) RESULT_TITLE.textContent = IS_DRAW ? "It’s a draw!" : `${WINNER} wins!`;
-  if (!RESULT_MESSAGE) return;
-  RESULT_MESSAGE.textContent = IS_DRAW
-    ? "Ihr habt gleich viele Paare gefunden."
-    : `${WINNER} hat die meisten Paare gefunden.`;
+  const WINNER: PlayerColor = scores.blue > scores.orange ? "blue" : "orange";
+  const WINNER_NAME: string = WINNER === "blue" ? "Blue" : "Orange";
+  if (RESULT_DIALOG) RESULT_DIALOG.dataset.result = IS_DRAW ? "draw" : WINNER;
+  if (RESULT_EYEBROW) RESULT_EYEBROW.textContent = IS_DRAW ? "It’s a" : "The winner is";
+  if (RESULT_TITLE) RESULT_TITLE.textContent = IS_DRAW ? "Draw" : `${WINNER_NAME} player`;
 }
 
 /**
@@ -365,10 +361,8 @@ function updateResultText(): void {
 function finishGame(): void {
   boardLocked = true;
   updateResultText();
-  if (FINAL_BLUE_SCORE) FINAL_BLUE_SCORE.textContent = String(scores.blue);
-  if (FINAL_ORANGE_SCORE) FINAL_ORANGE_SCORE.textContent = String(scores.orange);
-  if (RESULT_OVERLAY) RESULT_OVERLAY.hidden = false;
-  NEW_ROUND_BUTTON?.focus();
+  if (RESULT_DIALOG && !RESULT_DIALOG.open) RESULT_DIALOG.showModal();
+  RESULT_HOME_BUTTON?.focus();
 }
 
 /**
@@ -389,7 +383,7 @@ function flipCard(card: MemoryCard): void {
   card.isFlipped = true;
   const ELEMENT: HTMLButtonElement | null = getCardElement(card);
   ELEMENT?.classList.add("memory-card--flipped");
-  ELEMENT?.setAttribute("aria-label", `Aufgedeckte Memory-Karte: ${card.label}`);
+  ELEMENT?.setAttribute("aria-label", `Face-up memory card: ${card.label}`);
 }
 
 /**
@@ -401,7 +395,7 @@ function hideCard(card: MemoryCard): void {
   card.isFlipped = false;
   const ELEMENT: HTMLButtonElement | null = getCardElement(card);
   ELEMENT?.classList.remove("memory-card--flipped");
-  ELEMENT?.setAttribute("aria-label", "Verdeckte Memory-Karte");
+  ELEMENT?.setAttribute("aria-label", "Face-down memory card");
 }
 
 /**
@@ -413,7 +407,7 @@ function markCard(card: MemoryCard): void {
   card.isMatched = true;
   const ELEMENT: HTMLButtonElement | null = getCardElement(card);
   ELEMENT?.classList.add("memory-card--matched");
-  ELEMENT?.setAttribute("aria-label", `Gefundenes Kartenpaar: ${card.label}`);
+  ELEMENT?.setAttribute("aria-label", `Matched card pair: ${card.label}`);
   if (ELEMENT) ELEMENT.disabled = true;
 }
 
@@ -493,7 +487,7 @@ function handleSettingsSubmit(event: SubmitEvent): void {
   event.preventDefault();
   gameSettings = readSettings();
   if (SETTINGS_FEEDBACK) {
-    SETTINGS_FEEDBACK.textContent = gameSettings ? "" : "Bitte wähle in jeder Gruppe eine gültige Option.";
+    SETTINGS_FEEDBACK.textContent = gameSettings ? "" : "Please select a valid option in every group.";
   }
   startRound();
 }
@@ -536,8 +530,8 @@ function openExitDialog(): void {
 function continueGame(): void {
   exitDialogOpen = false;
   EXIT_DIALOG?.close();
-  if (RESULT_OVERLAY && !RESULT_OVERLAY.hidden) {
-    NEW_ROUND_BUTTON?.focus();
+  if (RESULT_DIALOG?.open) {
+    RESULT_HOME_BUTTON?.focus();
     return;
   }
   EXIT_BUTTON?.focus();
@@ -559,7 +553,17 @@ function confirmExit(): void {
  * @returns Nothing.
  */
 function returnHome(): void {
+  if (RESULT_DIALOG?.open) RESULT_DIALOG.close();
   showScreen("home");
+}
+
+/**
+ * Keeps the finished round visible until the provided button is used.
+ * @param event - The result dialog cancel event.
+ * @returns Nothing.
+ */
+function keepResultOpen(event: Event): void {
+  event.preventDefault();
 }
 
 /**
@@ -601,8 +605,8 @@ function registerEvents(): void {
   BACK_TO_GAME_BUTTON?.addEventListener("click", continueGame);
   CONFIRM_EXIT_BUTTON?.addEventListener("click", confirmExit);
   EXIT_DIALOG?.addEventListener("cancel", continueGame);
-  NEW_ROUND_BUTTON?.addEventListener("click", startRound);
   RESULT_HOME_BUTTON?.addEventListener("click", returnHome);
+  RESULT_DIALOG?.addEventListener("cancel", keepResultOpen);
   GAME_BOARD?.addEventListener("click", handleBoardClick);
   registerThemePreviewEvents();
 }
